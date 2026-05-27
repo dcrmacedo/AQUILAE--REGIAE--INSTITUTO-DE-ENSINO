@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="pt-BR" id="htmlElement">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disciplinas - AQUILAE REGIAE</title>
+    <link rel="icon" href="./imagens/fal_image.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Nunito', Arial, sans-serif;
+    background: #f9f5eb;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ============ DARK MODE ============ */
+
+html.dark {
+    color-scheme: dark;
+}
+
+html.dark body {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+html.dark header {
+    background-color: #2d2d2d !important;
+    border-color: #444;
+}
+
+html.dark main {
+    background-color: #1a1a1a;
+}
+
+html.dark footer {
+    background-color: #0f0f0f !important;
+}
+
+/* ============ HERO BANNER ============ */
+
+.hero-banner {
+    background: #0a1f44;
+    padding: 28px 40px 40px 40px;
+    position: relative;
+    overflow: visible;
+    min-height: 220px;
+}
+
+html.dark .hero-banner {
+    background: #2a2416;
+}
+
+.hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.hero-banner h1 {
+    display: inline-block;
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    background: #1a6fc4;
+    padding: 10px 28px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
+}
+
+/* ============ IMAGEM HERO ============ */
+
+.hero-img {
+    position: absolute;
+
+    right: -40px;
+    bottom: -120px;
+
+    width: 340px;
+    height: auto;
+
+    object-fit: contain;
+
+    z-index: 30;
+    pointer-events: none;
+}
+
+/* ============ WRAPPER ============ */
+
+.page-wrapper {
+    position: relative;
+    overflow: visible;
+}
+
+/* ============ TABS ============ */
+
+.disciplines-tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding-bottom: 20px;
+}
+
+.discipline-tab {
+    background: white;
+    border: 2px solid #1a6fc4;
+    color: #1a6fc4;
+    padding: 7px 18px;
+    border-radius: 25px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    font-family: 'Nunito', Arial, sans-serif;
+}
+
+html.dark .discipline-tab {
+    background: #333;
+    color: #64b5f6;
+    border-color: #64b5f6;
+}
+
+.discipline-tab:hover {
+    background: #1a6fc4;
+    color: white;
+}
+
+.discipline-tab.active {
+    background: #1a6fc4;
+    color: white;
+}
+
+/* ============ MAIN SECTION ============ */
+
+.disciplines-section {
+    background: #faf6ec;
+    padding: 120px 20px 60px;
+    min-height: 60vh;
+    position: relative;
+}
+
+html.dark .disciplines-section {
+    background: #1e1e1e;
+}
+
+.disciplines-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #222;
+    margin-bottom: 35px;
+}
+
+html.dark .section-title {
+    color: #e0e0e0;
+}
+
+/* ============ GRID ============ */
+
+.disciplines-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-bottom: 40px;
+}
+
+.discipline-card {
+    background: white;
+    border: 1.5px solid #e0ddd5;
+    padding: 22px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+html.dark .discipline-card {
+    background: #2d2d2d;
+    border-color: #444;
+}
+
+.discipline-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+    border-color: #1a6fc4;
+}
+
+.discipline-card h3 {
+    color: #1a7ad4;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+html.dark .discipline-card h3 {
+    color: #64b5f6;
+}
+
+.discipline-card p {
+    color: #555;
+    font-size: 0.92rem;
+    line-height: 1.7;
+}
+
+html.dark .discipline-card p {
+    color: #b0b0b0;
+}
+
+/* ============ DETAIL VIEW ============ */
+
+.detail-section {
+    display: none;
+    background: white;
+    padding: 40px 20px;
+    margin: 30px 0;
+    border-radius: 10px;
+}
+
+html.dark .detail-section {
+    background: #2d2d2d;
+}
+
+.detail-section.active {
+    display: block;
+}
+
+.detail-title {
+    color: #1a6fc4;
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+html.dark .detail-title {
+    color: #64b5f6;
+}
+
+.detail-tabs {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 40px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 20px;
+    overflow-x: auto;
+}
+
+html.dark .detail-tabs {
+    border-bottom-color: #444;
+}
+
+.detail-tab {
+    background: #f5f5f5;
+    color: #1a6fc4;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    border: none;
+    white-space: nowrap;
+}
+
+html.dark .detail-tab {
+    background: #333;
+    color: #64b5f6;
+}
+
+.detail-tab:hover {
+    background: #1a6fc4;
+    color: white;
+}
+
+.detail-tab.active {
+    background: #1a6fc4;
+    color: white;
+}
+
+.detail-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 18px;
+}
+
+.detail-card {
+    background: white;
+    border: 1.5px solid #e0ddd5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+html.dark .detail-card {
+    background: #333;
+    border-color: #555;
+}
+
+.detail-card h4 {
+    color: #1a7ad4;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+html.dark .detail-card h4 {
+    color: #64b5f6;
+}
+
+.detail-card p {
+    color: #555;
+    font-size: 0.88rem;
+    line-height: 1.55;
+}
+
+html.dark .detail-card p {
+    color: #b0b0b0;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #1a6fc4;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-bottom: 30px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-weight: 700;
+    border: none;
+    font-family: 'Nunito', Arial, sans-serif;
+}
+
+.back-button:hover {
+    background: #155aa0;
+}
+
+/* ============ HEADER ============ */
+
+header {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1a6fc4;
+}
+
+.nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+}
+
+.nav-links a {
+    color: #555;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: #1a6fc4;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: #666;
+}
+
+html.dark .theme-toggle {
+    color: #b0b0b0;
+}
+
+/* ============ FOOTER ============ */
+
+footer {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 32px 20px;
+    text-align: center;
+}
+
+footer p {
+    margin: 4px 0;
+    font-size: 0.88rem;
+}
+
+/* ============ RESPONSIVO ============ */
+
+@media (max-width: 1100px) {
+
+    .disciplines-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-img {
+        width: 280px;
+        right: -20px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .hero-banner {
+        padding: 25px 20px 20px;
+        min-height: auto;
+    }
+
+    .hero-inner {
+        padding-right: 0;
+    }
+
+    .hero-banner h1 {
+        font-size: 1.7rem;
+        padding: 10px 20px;
+    }
+
+    .disciplines-tabs {
+        gap: 8px;
+    }
+
+    .discipline-tab {
+        font-size: 0.82rem;
+        padding: 7px 14px;
+    }
+
+    .hero-img {
+        position: relative;
+
+        right: auto;
+        bottom: auto;
+
+        display: block;
+
+        width: 220px;
+        max-width: 100%;
+
+        margin: 25px auto -60px auto;
+    }
+
+    .disciplines-section {
+        padding-top: 90px;
+    }
+
+    .disciplines-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .hero-banner h1 {
+        font-size: 1.4rem;
+    }
+
+    .hero-img {
+        width: 180px;
+        margin-bottom: -40px;
+    }
+
+    .discipline-tab {
+        width: 100%;
+        text-align: center;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+    }
+
+    .discipline-card {
+        padding: 18px;
+    }
+
+    .detail-cards-grid {
+        grid-template-columns: 1fr;
+    }
+}
+        
+    footer p { margin: 4px 0; font-size: 0.88rem; }
+    
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo"></div>
+            <ul class="nav-links">
+                <li><a href="./home.html">Home</a></li>
+                <li><a href="./linguaportuguesa.html">Língua Portuguesa</a></li>
+                <li><a href="./matematica.html">Matemática</a></li>
+                <li><a href="./historia.html">História</a></li>
+                <li><a href="./ingles.html">Inglês</a></li>
+                <li><a href="./geografia.html">Geografia</a></li>
+                <li><a href="./biologia.html">Mais Matérias</a></li>
+            </ul>
+            <button class="theme-toggle" onclick="toggleDarkMode()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-wrapper">
+        <!-- HERO BANNER -->
+        <div class="hero-banner">
+            <div class="hero-inner">
+                <h1>Língua Portuguesa</h1>
+                <div class="disciplines-tabs">
+                    <button class="discipline-tab active" onclick="filterDisciplines('producao', event)">Produção de Textos</button>
+                    <button class="discipline-tab" onclick="filterDisciplines('sintaxe', event)">Sintaxe</button>
+                    <button class="discipline-tab" onclick="filterDisciplines('morfologia', event)">Morfologia - Língua Portuguesa</button>
+                </div>
+                <div class="disciplines-tabs" style="margin-top:-6px;">
+                    <button class="discipline-tab" onclick="filterDisciplines('pragmatica', event)">Pragmática</button>
+                    <button class="discipline-tab" onclick="filterDisciplines('fonologia', event)">Fonologia</button>
+                    <button class="discipline-tab" onclick="filterDisciplines('ortografia', event)">Ortografia</button>
+                    <button class="discipline-tab" onclick="filterDisciplines('estilistica', event)">Estilística</button>
+                </div>
+                <img src="https://static.todamateria.com.br/img/categories/lingua-portuguesa.png" alt="Língua Portuguesa" class="hero-img">
+            </div>
+        </div>
+
+        <!-- SEÇÃO DE DISCIPLINAS -->
+        <section id="disciplinas" class="disciplines-section">
+            <div class="disciplines-container">
+                <!-- Grid View -->
+                <div id="gridView">
+                    <h2 class="section-title">Destaques de Língua Portuguesa</h2>
+                    <div class="disciplines-grid" id="disciplinesGrid"></div>
+                </div>
+
+                <!-- Detail View -->
+                <div id="detailView" class="detail-section">
+                    <button class="back-button" onclick="backToGrid()">
+                        <i class="fas fa-arrow-left"></i> Voltar
+                    </button>
+                    
+                    <h2 class="detail-title" id="detailTitle"></h2>
+                    
+                    <div class="detail-tabs" id="detailTabsContainer"></div>
+
+                    <div class="detail-cards-grid" id="detailCardsContainer"></div>
+                </div>
+            </div>
+        </section>
+        </div><!-- end page-wrapper -->
+    </main>
+
+    
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // ========== SUPABASE ==========
+        const SUPABASE_URL = 'https://yhxqztyxotoukdszswid.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InloeHF6dHl4b3RvdWtkc3pzd2lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwOTI1NzMsImV4cCI6MjA5MzY2ODU3M30.QW-9qhQSTqwROZ8VIXL0JWbvCPxHFR3UwlEMdHl2scI';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // ========== DADOS PADRÃO (fallback caso Supabase esteja vazio) ==========
+        const fallbackData = {
+            producao: {
+                name: 'Produção de Textos',
+                highlights: [
+                    { id: 'producao-1', title: 'Entenda o que é Elipse (figura de linguagem) com exemplos', description: 'A elipse é uma figura de linguagem usada para omitir termos que podem ser facilmente compreendidos pelo contexto. Aprenda com exemplos práticos e exercícios.' },
+                    { id: 'producao-2', title: 'Letras do alfabeto para imprimir e recortar (Educação Infantil)', description: 'Confira nosso material para auxiliar no reconhecimento das letras do alfabeto. Pronto para imprimir e usar em sala de aula.' },
+                    { id: 'producao-3', title: 'Atividades com textos curtos para interpretação (para imprimir)', description: 'A leitura e a interpretação de textos curtos são fundamentais para o desenvolvimento da compreensão leitora dos alunos.' }
+                ]
+            },
+            sintaxe: {
+                name: 'Sintaxe',
+                highlights: [
+                    { id: 'sintaxe-1', title: 'Ponto e Vírgula ( ; )', description: 'O ponto e vírgula ( ; ) é um sinal de pontuação utilizado para separar orações ou elementos em uma frase com mais força que a vírgula.' },
+                    { id: 'sintaxe-2', title: 'Exercícios sobre aposto e vocativo (com gabarito comentado)', description: 'Faça os exercícios e pratique o que já aprendeu sobre aposto e vocativo com respostas comentadas.' },
+                    { id: 'sintaxe-3', title: 'Análise Sintática - Orações Subordinadas', description: 'Entenda como funcionam as orações subordinadas e aprenda a identificar suas classificações de forma prática e objetiva.' }
+                ]
+            },
+            morfologia: {
+                name: 'Morfologia - Língua Portuguesa',
+                highlights: [
+                    { id: 'morfologia-1', title: 'Características do Anúncio Publicitário', description: 'O anúncio publicitário (ou simplesmente publicidade) é um gênero textual que possui características específicas para atrair o consumidor.' },
+                    { id: 'morfologia-2', title: 'Exercícios de vozes verbais com gabarito', description: 'Teste seus conhecimentos em vozes verbais e confira se já sabe tudo! Com respostas detalhadas.' },
+                    { id: 'morfologia-3', title: 'Atividades sobre substantivos coletivos (prontas para imprimir)', description: 'As atividades a seguir foram elaboradas para facilitar a compreensão e aplicação de substantivos coletivos na língua portuguesa.' }
+                ]
+            },
+            pragmatica: {
+                name: 'Pragmática',
+                highlights: [
+                    { id: 'pragmatica-1', title: 'Como fazer um sumário (normas da ABNT)', description: 'Saiba como fazer um sumário no Word e conheça as regras da ABNT para apresentação de trabalhos acadêmicos.' },
+                    { id: 'pragmatica-2', title: 'Gêneros Textuais - Classificação e Características', description: 'Aprenda a identificar e classificar os diferentes gêneros textuais usados na língua portuguesa.' }
+                ]
+            },
+            fonologia: {
+                name: 'Fonologia',
+                highlights: [
+                    { id: 'fonologia-1', title: 'Fonemas vs Letras - Entenda a diferença', description: 'Descubra a diferença fundamental entre fonemas e letras. Conceitos essenciais para dominar a fonologia portuguesa.' },
+                    { id: 'fonologia-2', title: 'Dígrafos e encontros consonantais', description: 'Aprenda sobre dígrafos, encontros consonantais e como eles funcionam na estrutura das palavras.' }
+                ]
+            },
+            ortografia: {
+                name: 'Ortografia',
+                highlights: [
+                    { id: 'ortografia-1', title: 'Regras de Acentuação Gráfica', description: 'Domine as regras de acentuação gráfica do português com exemplos práticos e exercícios resolvidos.' },
+                    { id: 'ortografia-2', title: 'Emprego de S, SS, C, Ç e Z', description: 'Entenda as diferenças no uso de S, SS, C, Ç e Z através de regras claras e exceções importantes.' }
+                ]
+            },
+            estilistica: {
+                name: 'Estilística',
+                highlights: [
+                    { id: 'estilistica-1', title: 'Figuras de Linguagem Completo', description: 'Estude todas as figuras de linguagem: metáfora, metonímia, sinestesia, hipérbole e muito mais.' },
+                    { id: 'estilistica-2', title: 'Análise de Poesia Moderna', description: 'Aprenda a analisar a poesia moderna brasileira com suas características e principais autores.' }
+                ]
+            }
+        };
+
+        // disciplinesData será preenchido do Supabase (ou fallback)
+        let disciplinesData = {};
+        let allHighlights = [];
+        let currentFilter = 'producao';
+        let currentCategory = null;
+
+        // ========== CARREGAR DADOS DO SUPABASE ==========
+        async function loadDataFromSupabase() {
+            try {
+                // Busca todos os cards da disciplina lingua-portuguesa
+                const { data: cards, error } = await supabaseClient
+                    .from('disciplina_cards')
+                    .select('*')
+                    .eq('disciplina_slug', 'lingua-portuguesa')
+                    .order('id', { ascending: true });
+
+                if (error || !cards || cards.length === 0) {
+                    // Usa fallback se banco vazio ou erro
+                    disciplinesData = JSON.parse(JSON.stringify(fallbackData));
+                } else {
+                    // Monta disciplinesData a partir dos cards do banco
+                    const built = {};
+                    cards.forEach(card => {
+                        const cat = card.categoria || 'geral';
+                        if (!built[cat]) {
+                            built[cat] = {
+                                name: cat.charAt(0).toUpperCase() + cat.slice(1).replace(/-/g, ' '),
+                                highlights: []
+                            };
+                        }
+                        built[cat].highlights.push({
+                            id: String(card.id),
+                            title: card.titulo || '',
+                            description: card.descricao || '',
+                            link: card.link || ''
+                        });
+                    });
+
+                    // Tenta buscar os nomes das subabas da tabela disciplinas (se existir)
+                    try {
+                        const { data: subabas } = await supabaseClient
+                            .from('disciplina_subabas')
+                            .select('*')
+                            .eq('disciplina_slug', 'lingua-portuguesa')
+                            .order('ordem', { ascending: true });
+
+                        if (subabas && subabas.length > 0) {
+                            subabas.forEach(s => {
+                                if (built[s.slug]) built[s.slug].name = s.nome;
+                            });
+                            // Ordena built conforme ordem das subabas
+                            const ordered = {};
+                            subabas.forEach(s => { if (built[s.slug]) ordered[s.slug] = built[s.slug]; });
+                            Object.keys(built).forEach(k => { if (!ordered[k]) ordered[k] = built[k]; });
+                            disciplinesData = ordered;
+                        } else {
+                            // Usa nomes do fallback onde possível
+                            Object.keys(built).forEach(k => {
+                                if (fallbackData[k]) built[k].name = fallbackData[k].name;
+                            });
+                            disciplinesData = built;
+                        }
+                    } catch(_) {
+                        disciplinesData = built;
+                    }
+                }
+            } catch (e) {
+                disciplinesData = JSON.parse(JSON.stringify(fallbackData));
+            }
+
+            // Atualiza abas do hero dinamicamente
+            buildHeroTabs();
+
+            // Reconstrói allHighlights
+            allHighlights = Object.keys(disciplinesData).flatMap(cat =>
+                disciplinesData[cat].highlights.map(h => ({ ...h, category: cat }))
+            );
+
+            // Renderiza pela primeira aba
+            const firstCat = Object.keys(disciplinesData)[0] || 'producao';
+            currentFilter = firstCat;
+            renderDisciplines(firstCat);
+
+            // Ativa a primeira aba visualmente
+            const firstTab = document.querySelector('.discipline-tab');
+            if (firstTab) {
+                document.querySelectorAll('.discipline-tab').forEach(b => b.classList.remove('active'));
+                firstTab.classList.add('active');
+            }
+        }
+
+        // ========== MONTAR ABAS DO HERO DINAMICAMENTE ==========
+        function buildHeroTabs() {
+            const cats = Object.keys(disciplinesData);
+            const row1 = cats.slice(0, 3);
+            const row2 = cats.slice(3);
+
+            const heroInner = document.querySelector('.hero-inner');
+            // Remove abas antigas
+            heroInner.querySelectorAll('.disciplines-tabs').forEach(el => el.remove());
+
+            if (row1.length > 0) {
+                const div1 = document.createElement('div');
+                div1.className = 'disciplines-tabs';
+                row1.forEach((cat, i) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'discipline-tab' + (i === 0 ? ' active' : '');
+                    btn.textContent = disciplinesData[cat].name;
+                    btn.onclick = (e) => filterDisciplines(cat, e);
+                    div1.appendChild(btn);
+                });
+                // Insere antes da imagem
+                const img = heroInner.querySelector('.hero-img');
+                heroInner.insertBefore(div1, img);
+            }
+
+            if (row2.length > 0) {
+                const div2 = document.createElement('div');
+                div2.className = 'disciplines-tabs';
+                div2.style.marginTop = '-6px';
+                row2.forEach(cat => {
+                    const btn = document.createElement('button');
+                    btn.className = 'discipline-tab';
+                    btn.textContent = disciplinesData[cat].name;
+                    btn.onclick = (e) => filterDisciplines(cat, e);
+                    div2.appendChild(btn);
+                });
+                const img = heroInner.querySelector('.hero-img');
+                heroInner.insertBefore(div2, img);
+            }
+        }
+
+        // ========== RENDERIZAÇÃO ==========
+        function renderDisciplines(filter) {
+            const grid = document.getElementById('disciplinesGrid');
+            const titleEl = document.querySelector('.section-title');
+            const catData = disciplinesData[filter];
+
+            if (!catData) {
+                grid.innerHTML = '<p style="color:#888;text-align:center;">Nenhum conteúdo cadastrado para esta categoria.</p>';
+                return;
+            }
+
+            if (titleEl) titleEl.textContent = 'Destaques de ' + catData.name;
+
+            const items = catData.highlights;
+            if (!items || items.length === 0) {
+                grid.innerHTML = '<p style="color:#888;text-align:center;">Nenhum card cadastrado ainda.</p>';
+                return;
+            }
+
+            grid.innerHTML = items.map(discipline => `
+                <div class="discipline-card" onclick="showDetail('${filter}')">
+                    <h3>${discipline.title}</h3>
+                    <p>${discipline.description}</p>
+                    ${discipline.link ? `<a href="${discipline.link}" target="_blank" style="display:inline-block;margin-top:10px;font-size:0.8rem;color:#1a6fc4;font-weight:700;">Ver mais →</a>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function filterDisciplines(category, event) {
+            currentFilter = category;
+            document.querySelectorAll('.discipline-tab').forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) event.target.classList.add('active');
+            renderDisciplines(category);
+        }
+
+        function showDetail(category) {
+            currentCategory = category;
+            const data = disciplinesData[category];
+            if (!data) return;
+
+            document.getElementById('gridView').style.display = 'none';
+            document.getElementById('detailView').classList.add('active');
+            document.getElementById('detailTitle').textContent = data.name;
+
+            const tabsContainer = document.getElementById('detailTabsContainer');
+            tabsContainer.innerHTML = Object.keys(disciplinesData).map(cat => `
+                <button class="detail-tab ${cat === category ? 'active' : ''}" onclick="switchCategory('${cat}', event)">
+                    ${disciplinesData[cat].name}
+                </button>
+            `).join('');
+
+            renderDetailCards(data.highlights);
+        }
+
+        function renderDetailCards(highlights) {
+            const container = document.getElementById('detailCardsContainer');
+            if (!highlights || highlights.length === 0) {
+                container.innerHTML = '<p style="color:#888;">Nenhum card cadastrado.</p>';
+                return;
+            }
+            container.innerHTML = highlights.map(item => `
+                <div class="detail-card">
+                    <h4>${item.title}</h4>
+                    <p>${item.description}</p>
+                    ${item.link ? `<a href="${item.link}" target="_blank" style="display:inline-block;margin-top:8px;font-size:0.8rem;color:#1a6fc4;font-weight:700;">Ver mais →</a>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function switchCategory(category, event) {
+            currentCategory = category;
+            const data = disciplinesData[category];
+            if (!data) return;
+            document.getElementById('detailTitle').textContent = data.name;
+            document.querySelectorAll('.detail-tab').forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) event.target.classList.add('active');
+            renderDetailCards(data.highlights);
+        }
+
+        function backToGrid() {
+            document.getElementById('gridView').style.display = 'block';
+            document.getElementById('detailView').classList.remove('active');
+            currentCategory = null;
+        }
+
+        function toggleDarkMode() {
+            const html = document.getElementById('htmlElement');
+            html.classList.toggle('dark');
+            localStorage.setItem('darkMode', html.classList.contains('dark'));
+        }
+
+        // ========== INIT ==========
+        window.addEventListener('DOMContentLoaded', async () => {
+            const html = document.getElementById('htmlElement');
+            if (localStorage.getItem('darkMode') === 'true') html.classList.add('dark');
+            await loadDataFromSupabase();
+        });
+    </script>
+</body>
+</html>

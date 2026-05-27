@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="pt-BR" id="htmlElement">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quem Somos - AQUILAE -REGIAE- INSTITUTO DE ENSINO</title>
+    <link rel="icon" href="./imagens/fal_image.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #faf6ec;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Dark Mode */
+        html.dark body {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        /* ========== HERO SECTION ========== */
+        .quem-somos-hero {
+            position: relative;
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow: hidden;
+        }
+
+        .quem-somos-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 31, 68, 0.6);
+            z-index: 1;
+        }
+
+        .quem-somos-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            max-width: 900px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .quem-somos-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            letter-spacing: -1px;
+        }
+
+        .quem-somos-hero p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+
+        /* ========== CONTAINER PRINCIPAL ========== */
+        .quem-somos-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        /* ========== SEÇÃO DE CONTEÚDO ========== */
+        .quem-somos-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+
+        .quem-somos-text h2 {
+            font-size: 2.5rem;
+            color: #0a1f44;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .quem-somos-text h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #FFC107, #FF9800);
+            border-radius: 2px;
+        }
+
+        html.dark .quem-somos-text h2 {
+            color: #FFD700;
+        }
+
+        .quem-somos-text p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 18px;
+            text-align: justify;
+            line-height: 1.8;
+        }
+
+        html.dark .quem-somos-text p {
+            color: #ccc;
+        }
+
+        .quem-somos-text ul {
+            list-style: none;
+            margin: 25px 0;
+        }
+
+        .quem-somos-text li {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        html.dark .quem-somos-text li {
+            color: #ccc;
+        }
+
+        .quem-somos-text li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #FFC107;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .quem-somos-image {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .quem-somos-image img {
+            width: 100%;
+            height: auto;
+            max-height: 380px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .quem-somos-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), transparent);
+            border-radius: 15px;
+        }
+
+        /* ========== CARDS DE VALORES ========== */
+        .valores-section {
+            background: linear-gradient(135deg, #f5f5f5, #fff);
+            padding: 80px 20px;
+            border-radius: 20px;
+            margin-bottom: 80px;
+        }
+
+        html.dark .valores-section {
+            background: linear-gradient(135deg, #2d2d2d, #333);
+        }
+
+        .valores-titulo {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .valores-titulo h2 {
+            font-size: 2.5rem;
+            color: #0a1f44;
+            margin-bottom: 15px;
+        }
+
+        html.dark .valores-titulo h2 {
+            color: #FFD700;
+        }
+
+        .valores-titulo p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        html.dark .valores-titulo p {
+            color: #aaa;
+        }
+
+        .valores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .valor-card {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-top: 4px solid #FFC107;
+        }
+
+        html.dark .valor-card {
+            background: #333;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .valor-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .valor-card i {
+            font-size: 2.5rem;
+            color: #FFC107;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .valor-card h3 {
+            font-size: 1.3rem;
+            color: #0a1f44;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        html.dark .valor-card h3 {
+            color: #FFD700;
+        }
+
+        .valor-card p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        html.dark .valor-card p {
+            color: #aaa;
+        }
+
+        /* ========== MISSÃO, VISÃO E VALORES ========== */
+        .mvv-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .mvv-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-left: 5px solid #0a1f44;
+        }
+
+        html.dark .mvv-card {
+            background: #2d2d2d;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .mvv-card.missao {
+            border-left-color: #FF6B6B;
+        }
+
+        .mvv-card.visao {
+            border-left-color: #4ECDC4;
+        }
+
+        .mvv-card.valores {
+            border-left-color: #FFD93D;
+        }
+
+        .mvv-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #0a1f44;
+            font-weight: 700;
+        }
+
+        html.dark .mvv-card h3 {
+            color: #FFD700;
+        }
+
+        .mvv-card p {
+            color: #555;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        html.dark .mvv-card p {
+            color: #ccc;
+        }
+
+        /* ========== TIMELINE (HISTÓRICO) ========== */
+        .timeline-section {
+            margin-bottom: 80px;
+        }
+
+        .timeline-section h2 {
+            font-size: 2.5rem;
+            color: #0a1f44;
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        html.dark .timeline-section h2 {
+            color: #FFD700;
+        }
+
+        .timeline-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #FFC107, #FF9800);
+            border-radius: 2px;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #FFC107, #FF9800);
+        }
+
+        .timeline-item {
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: 0;
+            margin-right: 52%;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 52%;
+            margin-right: 0;
+            text-align: left;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 4px solid #FFC107;
+            border-radius: 50%;
+            top: 0;
+            z-index: 1;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        html.dark .timeline-content {
+            background: #2d2d2d;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-year {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0a1f44;
+            margin-bottom: 8px;
+        }
+
+        html.dark .timeline-year {
+            color: #FFD700;
+        }
+
+        .timeline-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        html.dark .timeline-title {
+            color: #e0e0e0;
+        }
+
+        .timeline-desc {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        html.dark .timeline-desc {
+            color: #aaa;
+        }
+
+        /* ========== EQUIPE ========== */
+        .equipe-section {
+            margin-bottom: 80px;
+        }
+
+        .equipe-section h2 {
+            font-size: 2.5rem;
+            color: #0a1f44;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        html.dark .equipe-section h2 {
+            color: #FFD700;
+        }
+
+        .equipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .equipe-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        html.dark .equipe-card {
+            background: #2d2d2d;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .equipe-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .equipe-img {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #0a1f44, #1a4d7a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .equipe-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .equipe-info h3 {
+            font-size: 1.2rem;
+            color: #0a1f44;
+            margin-bottom: 5px;
+        }
+
+        html.dark .equipe-info h3 {
+            color: #FFD700;
+        }
+
+        .equipe-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        html.dark .equipe-info p {
+            color: #aaa;
+        }
+
+        /* ========== ANIMAÇÕES ========== */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .quem-somos-hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .quem-somos-hero p {
+                font-size: 1rem;
+            }
+
+            .quem-somos-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .quem-somos-text h2 {
+                font-size: 1.8rem;
+            }
+
+            .valores-titulo h2 {
+                font-size: 1.8rem;
+            }
+
+            .timeline::before {
+                left: 0;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 40px;
+                margin-right: 0;
+                text-align: left;
+            }
+
+            .timeline-dot {
+                left: 0;
+            }
+
+            .mvv-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ========== HEADER E FOOTER (assumindo que serão carregados de outro lugar) ========== */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        html.dark header {
+            background-color: #2d2d2d;
+            border-color: #444;
+        }
+
+        footer {
+            background-color: #0a1f44;
+            color: white;
+            padding: 50px 20px;
+            margin-top: 100px;
+        }
+
+        html.dark footer {
+            background-color: #1a1a1a;
+        }
+        .mvv-card h3 i {
+             margin-right: 10px;
+             font-size: 1.3rem;
+        }
+
+        .mvv-card.missao h3 i {
+            color: #FF6B6B;
+        }
+
+        .mvv-card.visao h3 i {
+            color: #4ECDC4;
+        }
+
+        .mvv-card.valores h3 i {
+            color: #FFD93D;
+}
+    </style>
+</head>
+<body>
+    <!-- HERO SECTION -->
+    <section class="quem-somos-hero" id="heroSection" style="background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1600&h=900&fit=crop'); background-blend-mode: overlay;">
+        <div class="quem-somos-hero-content">
+            <h1 id="heroTitle">Quem Somos</h1>
+            <p id="heroSubtitle">Conheça a história e os valores que nos movem</p>
+        </div>
+    </section>
+
+    <!-- CONTAINER PRINCIPAL -->
+    <div class="quem-somos-container">
+        
+        <!-- SEÇÃO PRINCIPAL DE CONTEÚDO -->
+        <section class="quem-somos-content">
+            <div class="quem-somos-text">
+                <h2 id="mainTitle">Sobre o AQUILAE</h2>
+                <div id="mainContent">
+                    <p>Somos uma instituição de ensino dedicada à excelência educacional, comprometida com a formação integral de nossos alunos. Com atuação no mercado educacional, consolidamos nossa reputação através de resultados comprovados e metodologias inovadoras.</p>
+                    
+                    <p>O AQUILAE -REGIAE- representa o compromisso com a qualidade, inovação e transformação no campo da educação. Nossas práticas pedagógicas são constantemente atualizadas para acompanhar as mudanças do mundo moderno.</p>
+
+                    <h3 style="font-size: 1.3rem; color: #0a1f44; margin-top: 30px; margin-bottom: 15px;">Nosso Diferencial:</h3>
+                    <ul>
+                        <li>Corpo docente altamente qualificado e com experiência</li>
+                        
+                        <li>Metodologia de ensino personalizada e centrada no aluno</li>
+                        <li>Programas de desenvolvimento integral: acadêmico, social e emocional</li>
+                        <li>Acompanhamento contínuo do progresso estudantil</li>
+                        <li>Ambiente acolhedor que respeita a diversidade</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quem-somos-image">
+                <img id="mainImage" src="" alt="Equipe AQUILAE">
+            </div>
+        </section>
+
+        <!-- MISSÃO, VISÃO E VALORES -->
+        <section style="margin-bottom: 80px;">
+            <div class="mvv-container">
+                <div class="mvv-card missao">
+                    <h3><i class="fas fa-bullseye"></i> Missão</h3>
+                    <p id="missaoText">Proporcionar uma educação de qualidade que prepare os alunos para os desafios do futuro, desenvolvendo suas competências acadêmicas, críticas e socioemocionais.</p>
+                </div>
+
+                <div class="mvv-card visao">
+                    <h3><i class="fas fa-eye"></i> Visão</h3>
+                    <p id="visaoText">Ser reconhecida como uma instituição de ensino que forma cidadãos pensadores, criativos e comprometidos com a transformação positiva da sociedade.</p>
+                </div>
+
+                <div class="mvv-card valores">
+                    <h3><i class="fas fa-gem"></i> Valores</h3>
+                    <p id="valoresText">Excelência, Integridade, Inovação, Respeito à Diversidade, Compromisso com a Sustentabilidade e Formação Integral.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- VALORES / DIFERENCIAIS -->
+        <section class="valores-section">
+            <div class="valores-titulo">
+                <h2>Por Que Escolher o AQUILAE?</h2>
+                <p>Conheça os motivos que fazem nossa instituição referência em educação de excelência</p>
+            </div>
+
+            <div class="valores-grid" id="valoresGrid">
+                <div class="valor-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Excelência Acadêmica</h3>
+                    <p>Metodologia de ensino comprovada com resultados consistentes em ENEM e Vestibulares</p>
+                </div>
+
+                <div class="valor-card">
+                    <i class="fas fa-chalkboard-user"></i>
+                    <h3>Professores Qualificados</h3>
+                    <p>Equipe de docentes com especialização, experiência e dedicação ao ensino</p>
+                </div>
+
+                <div class="valor-card">
+                    <i class="fas fa-laptop"></i>
+                    <h3>Tecnologia Moderna</h3>
+                    <p>Plataformas de aprendizado inovadoras e ferramentas de última geração</p>
+                </div>
+
+                <div class="valor-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Comunidade Acolhedora</h3>
+                    <p>Ambiente que valoriza a diversidade e promove relacionamentos saudáveis</p>
+                </div>
+
+                <div class="valor-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Inovação Contínua</h3>
+                    <p>Currículo atualizado que acompanha as tendências educacionais globais</p>
+                </div>
+
+                <div class="valor-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Suporte Personalizado</h3>
+                    <p>Acompanhamento individualizado para o sucesso de cada aluno</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TIMELINE / HISTÓRICO -->
+        <section class="timeline-section">
+            <h2>Nossa Trajetória</h2>
+            <div class="timeline" id="timelineContainer">
+                <!-- Timeline items serão carregados dinamicamente via Supabase -->
+            </div>
+        </section>
+
+        <!-- EQUIPE -->
+        <section class="equipe-section">
+            <h2>Nossa Equipe</h2>
+            <div class="equipe-grid" id="equipeGrid">
+                <!-- Cards da equipe serão carregados dinamicamente -->
+            </div>
+        </section>
+
+    </div>
+
+    <!-- SCRIPT PARA CARREGAR DADOS DO SUPABASE -->
+    <script>
+        // Configuração Supabase
+        const SUPABASE_URL = 'https://yhxqztyxotoukdszswid.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InloeHF6dHl4b3RvdWtkc3pzd2lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwOTI1NzMsImV4cCI6MjA5MzY2ODU3M30.QW-9qhQSTqwROZ8VIXL0JWbvCPxHFR3UwlEMdHl2scI';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Carrega dados da seção "Quem Somos" do Supabase
+        async function carregarQuemSomos() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('quem_somos')
+                    .select('*')
+                    .limit(1);
+
+                if (error || !data || data.length === 0) {
+                    console.log('Usando conteúdo padrão');
+                    return;
+                }
+
+                const conteudo = data[0];
+
+                // Atualiza Hero Section
+                if (conteudo.hero_titulo) {
+                    document.getElementById('heroTitle').textContent = conteudo.hero_titulo;
+                }
+                if (conteudo.hero_subtitulo) {
+                    document.getElementById('heroSubtitle').textContent = conteudo.hero_subtitulo;
+                }
+                if (conteudo.hero_background_url) {
+                    document.getElementById('heroSection').style.backgroundImage = `url('${conteudo.hero_background_url}')`;
+                }
+
+                // Atualiza Seção Principal
+                if (conteudo.main_title) {
+                    document.getElementById('mainTitle').textContent = conteudo.main_title;
+                }
+                if (conteudo.main_content) {
+                    document.getElementById('mainContent').innerHTML = conteudo.main_content;
+                }
+                if (conteudo.main_image_url) {
+                    document.getElementById('mainImage').src = conteudo.main_image_url;
+                }
+
+                // Atualiza MVV
+                if (conteudo.missao) {
+                    document.getElementById('missaoText').textContent = conteudo.missao;
+                }
+                if (conteudo.visao) {
+                    document.getElementById('visaoText').textContent = conteudo.visao;
+                }
+                if (conteudo.valores) {
+                    document.getElementById('valoresText').textContent = conteudo.valores;
+                }
+
+            } catch (e) {
+                console.error('Erro ao carregar Quem Somos:', e);
+            }
+        }
+
+        // Carrega timeline do Supabase
+        async function carregarTimeline() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('quem_somos_timeline')
+                    .select('*')
+                    .order('ano', { ascending: true });
+
+                if (error || !data || data.length === 0) {
+                    document.getElementById('timelineContainer').innerHTML = '<p style="text-align: center; color: #999;">Timeline não cadastrada</p>';
+                    return;
+                }
+
+                const timeline = data.map((item, index) => `
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-year">${item.ano}</div>
+                            <div class="timeline-title">${item.titulo}</div>
+                            <div class="timeline-desc">${item.descricao}</div>
+                        </div>
+                    </div>
+                `).join('');
+
+                document.getElementById('timelineContainer').innerHTML = timeline;
+
+            } catch (e) {
+                console.error('Erro ao carregar timeline:', e);
+            }
+        }
+
+        // Carrega equipe do Supabase
+        async function carregarEquipe() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('quem_somos_equipe')
+                    .select('*')
+                    .order('ordem', { ascending: true });
+
+                if (error || !data || data.length === 0) {
+                    document.getElementById('equipeGrid').innerHTML = '<p style="text-align: center; color: #999;">Equipe não cadastrada</p>';
+                    return;
+                }
+
+                const equipe = data.map(item => `
+                    <div class="equipe-card">
+                        <div class="equipe-img">
+                            ${item.imagem_url ? `<img src="${item.imagem_url}" style="width:100%; height:100%; object-fit: cover;" alt="${item.nome}">` : '<i class="fas fa-user"></i>'}
+                        </div>
+                        <div class="equipe-info">
+                            <h3>${item.nome}</h3>
+                            <p>${item.cargo || 'Membro da Equipe'}</p>
+                        </div>
+                    </div>
+                `).join('');
+
+                document.getElementById('equipeGrid').innerHTML = equipe;
+
+            } catch (e) {
+                console.error('Erro ao carregar equipe:', e);
+            }
+        }
+
+        // Inicializa ao carregar a página
+        window.addEventListener('DOMContentLoaded', () => {
+            carregarQuemSomos();
+            carregarTimeline();
+            carregarEquipe();
+        });
+
+        // Dark Mode Toggle (assumindo que o script de tema está em outro arquivo)
+        document.addEventListener('DOMContentLoaded', () => {
+            const html = document.documentElement;
+            const isDark = localStorage.getItem('theme') === 'dark';
+            if (isDark) {
+                html.classList.add('dark');
+            }
+        });
+    </script>
+</body>
+</html>

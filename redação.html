@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="pt-BR" id="htmlElement">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disciplinas - AQUILAE REGIAE</title>
+    <link rel="icon" href="./imagens/fal_image.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Nunito', Arial, sans-serif;
+    background: #f9f5eb;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ============ DARK MODE ============ */
+
+html.dark {
+    color-scheme: dark;
+}
+
+html.dark body {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+html.dark header {
+    background-color: #2d2d2d !important;
+    border-color: #444;
+}
+
+html.dark main {
+    background-color: #1a1a1a;
+}
+
+html.dark footer {
+    background-color: #0f0f0f !important;
+}
+
+/* ============ HERO BANNER ============ */
+
+.hero-banner {
+    background: #0a1f44;
+    padding: 28px 40px 40px 40px;
+    position: relative;
+    overflow: visible;
+    min-height: 220px;
+}
+
+html.dark .hero-banner {
+    background: #2a2416;
+}
+
+.hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.hero-banner h1 {
+    display: inline-block;
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    background: #1a6fc4;
+    padding: 10px 28px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
+}
+
+/* ============ IMAGEM HERO ============ */
+
+.hero-img {
+    position: absolute;
+
+    right: -40px;
+    bottom: -120px;
+
+    width: 340px;
+    height: auto;
+
+    object-fit: contain;
+
+    z-index: 30;
+    pointer-events: none;
+}
+
+/* ============ WRAPPER ============ */
+
+.page-wrapper {
+    position: relative;
+    overflow: visible;
+}
+
+/* ============ TABS ============ */
+
+.disciplines-tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding-bottom: 20px;
+}
+
+.discipline-tab {
+    background: white;
+    border: 2px solid #1a6fc4;
+    color: #1a6fc4;
+    padding: 7px 18px;
+    border-radius: 25px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    font-family: 'Nunito', Arial, sans-serif;
+}
+
+html.dark .discipline-tab {
+    background: #333;
+    color: #64b5f6;
+    border-color: #64b5f6;
+}
+
+.discipline-tab:hover {
+    background: #1a6fc4;
+    color: white;
+}
+
+.discipline-tab.active {
+    background: #1a6fc4;
+    color: white;
+}
+
+/* ============ MAIN SECTION ============ */
+
+.disciplines-section {
+    background: #faf6ec;
+    padding: 120px 20px 60px;
+    min-height: 60vh;
+    position: relative;
+}
+
+html.dark .disciplines-section {
+    background: #1e1e1e;
+}
+
+.disciplines-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #222;
+    margin-bottom: 35px;
+}
+
+html.dark .section-title {
+    color: #e0e0e0;
+}
+
+/* ============ GRID ============ */
+
+.disciplines-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-bottom: 40px;
+}
+
+.discipline-card {
+    background: white;
+    border: 1.5px solid #e0ddd5;
+    padding: 22px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+html.dark .discipline-card {
+    background: #2d2d2d;
+    border-color: #444;
+}
+
+.discipline-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+    border-color: #1a6fc4;
+}
+
+.discipline-card h3 {
+    color: #1a7ad4;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+html.dark .discipline-card h3 {
+    color: #64b5f6;
+}
+
+.discipline-card p {
+    color: #555;
+    font-size: 0.92rem;
+    line-height: 1.7;
+}
+
+html.dark .discipline-card p {
+    color: #b0b0b0;
+}
+
+/* ============ DETAIL VIEW ============ */
+
+.detail-section {
+    display: none;
+    background: white;
+    padding: 40px 20px;
+    margin: 30px 0;
+    border-radius: 10px;
+}
+
+html.dark .detail-section {
+    background: #2d2d2d;
+}
+
+.detail-section.active {
+    display: block;
+}
+
+.detail-title {
+    color: #1a6fc4;
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+html.dark .detail-title {
+    color: #64b5f6;
+}
+
+.detail-tabs {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 40px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 20px;
+    overflow-x: auto;
+}
+
+html.dark .detail-tabs {
+    border-bottom-color: #444;
+}
+
+.detail-tab {
+    background: #f5f5f5;
+    color: #1a6fc4;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    border: none;
+    white-space: nowrap;
+}
+
+html.dark .detail-tab {
+    background: #333;
+    color: #64b5f6;
+}
+
+.detail-tab:hover {
+    background: #1a6fc4;
+    color: white;
+}
+
+.detail-tab.active {
+    background: #1a6fc4;
+    color: white;
+}
+
+.detail-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 18px;
+}
+
+.detail-card {
+    background: white;
+    border: 1.5px solid #e0ddd5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+html.dark .detail-card {
+    background: #333;
+    border-color: #555;
+}
+
+.detail-card h4 {
+    color: #1a7ad4;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+html.dark .detail-card h4 {
+    color: #64b5f6;
+}
+
+.detail-card p {
+    color: #555;
+    font-size: 0.88rem;
+    line-height: 1.55;
+}
+
+html.dark .detail-card p {
+    color: #b0b0b0;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #1a6fc4;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-bottom: 30px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-weight: 700;
+    border: none;
+    font-family: 'Nunito', Arial, sans-serif;
+}
+
+.back-button:hover {
+    background: #155aa0;
+}
+
+/* ============ HEADER ============ */
+
+header {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1a6fc4;
+}
+
+.nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+}
+
+.nav-links a {
+    color: #555;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: #1a6fc4;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: #666;
+}
+
+html.dark .theme-toggle {
+    color: #b0b0b0;
+}
+
+/* ============ FOOTER ============ */
+
+footer {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 32px 20px;
+    text-align: center;
+}
+
+footer p {
+    margin: 4px 0;
+    font-size: 0.88rem;
+}
+
+/* ============ RESPONSIVO ============ */
+
+@media (max-width: 1100px) {
+
+    .disciplines-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-img {
+        width: 280px;
+        right: -20px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .hero-banner {
+        padding: 25px 20px 20px;
+        min-height: auto;
+    }
+
+    .hero-inner {
+        padding-right: 0;
+    }
+
+    .hero-banner h1 {
+        font-size: 1.7rem;
+        padding: 10px 20px;
+    }
+
+    .disciplines-tabs {
+        gap: 8px;
+    }
+
+    .discipline-tab {
+        font-size: 0.82rem;
+        padding: 7px 14px;
+    }
+
+    .hero-img {
+        position: relative;
+
+        right: auto;
+        bottom: auto;
+
+        display: block;
+
+        width: 220px;
+        max-width: 100%;
+
+        margin: 25px auto -60px auto;
+    }
+
+    .disciplines-section {
+        padding-top: 90px;
+    }
+
+    .disciplines-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .hero-banner h1 {
+        font-size: 1.4rem;
+    }
+
+    .hero-img {
+        width: 180px;
+        margin-bottom: -40px;
+    }
+
+    .discipline-tab {
+        width: 100%;
+        text-align: center;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+    }
+
+    .discipline-card {
+        padding: 18px;
+    }
+
+    .detail-cards-grid {
+        grid-template-columns: 1fr;
+    }
+}
+        
+    footer p { margin: 4px 0; font-size: 0.88rem; }
+    
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo"></div>
+            <ul class="nav-links">
+                <li><a href="./home.html">Home</a></li>
+                <li><a href="./linguaportuguesa.html"></a></li>
+                <li><a href="./matematica.html"></a></li>
+                <li><a href="./historia.html"></a></li>
+                <li><a href="./ingles.html"></a></li>
+                <li><a href="./geografia.html"></a></li>
+                <li><a href=""></a></li>
+            </ul>
+            <button class="theme-toggle" onclick="toggleDarkMode()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-wrapper">
+        <!-- HERO BANNER -->
+        <div class="hero-banner">
+            <div class="hero-inner">
+                <h1>Redação</h1>
+                <div class="disciplines-tabs">
+                    <button class="discipline-tab active" onclick="filterDisciplines('producao', event)">Conectivos para redação</button>
+                    <button class="discipline-tab" onclick="filterDisciplines('sintaxe', event)">Como fazer uma boa redação</button>
+                    <button class="discipline-tab" onclick="filterDisciplines('morfologia', event)">Técnicas de redação</button>
+                </div>
+                <div class="disciplines-tabs" style="margin-top:-6px;">
+                    <button class="discipline-tab" onclick="filterDisciplines('pragmatica', event)">Tipos de textuais</button>
+                    <button class="discipline-tab" onclick="filterDisciplines('fonologia', event)">interpretação de texto</button>
+                    <button class="discipline-tab" onclick="filterDisciplines('ortografia', event)">Repertório sociocultural</button>
+                    <button class="discipline-tab" onclick="filterDisciplines('estilistica', event)">As 5 competências da redação do enem</button>
+                </div>
+                <img src="https://s3.static.brasilescola.uol.com.br/be/2025/05/capa-redacaowebp.webp" alt="Língua Portuguesa" class="hero-img">
+            </div>
+        </div>
+
+        <!-- SEÇÃO DE DISCIPLINAS -->
+        <section id="disciplinas" class="disciplines-section">
+            <div class="disciplines-container">
+                <!-- Grid View -->
+                <div id="gridView">
+                    <h2 class="section-title">Destaques da Redação</h2>
+                    <div class="disciplines-grid" id="disciplinesGrid"></div>
+                </div>
+
+                <!-- Detail View -->
+                <div id="detailView" class="detail-section">
+                    <button class="back-button" onclick="backToGrid()">
+                        <i class="fas fa-arrow-left"></i> Voltar
+                    </button>
+                    
+                    <h2 class="detail-title" id="detailTitle"></h2>
+                    
+                    <div class="detail-tabs" id="detailTabsContainer"></div>
+
+                    <div class="detail-cards-grid" id="detailCardsContainer"></div>
+                </div>
+            </div>
+        </section>
+        </div><!-- end page-wrapper -->
+    </main>
+
+    
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // ========== SUPABASE ==========
+        const SUPABASE_URL = 'https://yhxqztyxotoukdszswid.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InloeHF6dHl4b3RvdWtkc3pzd2lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwOTI1NzMsImV4cCI6MjA5MzY2ODU3M30.QW-9qhQSTqwROZ8VIXL0JWbvCPxHFR3UwlEMdHl2scI';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // ========== DADOS PADRÃO (fallback se banco vazio) ==========
+        const fallbackData = {
+            conectivos: {
+                name: 'Conectivos para redação',
+                highlights: [
+                    { id: 'c-1', title: 'Conectivos de adição e continuação', description: 'Aprenda a usar "além disso", "ademais", "outrossim" e outros conectivos que adicionam informações ao texto.' },
+                    { id: 'c-2', title: 'Conectivos de conclusão', description: 'Finalize seus parágrafos com maestria usando "portanto", "logo", "assim", "por isso" e outros marcadores de conclusão.' },
+                    { id: 'c-3', title: 'Conectivos de oposição e contraste', description: 'Use "no entanto", "todavia", "contudo", "entretanto" para criar contraste e complexidade argumentativa.' }
+                ]
+            },
+            boa_redacao: {
+                name: 'Como fazer uma boa redação',
+                highlights: [
+                    { id: 'br-1', title: 'Estrutura da redação dissertativa-argumentativa', description: 'Entenda a estrutura clássica: introdução, desenvolvimento (2 parágrafos) e conclusão com proposta de intervenção.' },
+                    { id: 'br-2', title: 'Como fazer uma introdução impactante', description: 'Conheça os tipos de introdução: paradoxo, citação, dado estatístico e contextualização histórica.' },
+                    { id: 'br-3', title: 'Proposta de intervenção nota 200', description: 'Saiba como construir uma proposta de intervenção completa com agente, ação, meio, finalidade e detalhamento.' }
+                ]
+            },
+            tecnicas: {
+                name: 'Técnicas de redação',
+                highlights: [
+                    { id: 't-1', title: 'Repertório sociocultural para redação', description: 'Como usar filmes, músicas, obras literárias, dados e teorias de forma pertinente na sua argumentação.' },
+                    { id: 't-2', title: 'Construção do argumento', description: 'Aprenda a montar um argumento sólido: tese, argumento, contra-argumento e refutação.' },
+                    { id: 't-3', title: 'Coesão e coerência textual', description: 'Entenda a diferença entre coesão (forma) e coerência (conteúdo) e como garantir ambas na sua redação.' }
+                ]
+            },
+            tipos_textuais: {
+                name: 'Tipos textuais',
+                highlights: [
+                    { id: 'tt-1', title: 'Texto dissertativo-argumentativo', description: 'O gênero cobrado no ENEM. Conheça suas características, estrutura e as exigências das 5 competências.' },
+                    { id: 'tt-2', title: 'Diferença entre tipologia e gênero textual', description: 'Entenda a distinção fundamental entre tipo textual (narração, descrição, dissertação) e gênero textual.' }
+                ]
+            },
+            interpretacao: {
+                name: 'Interpretação de texto',
+                highlights: [
+                    { id: 'i-1', title: 'Estratégias de leitura rápida', description: 'Técnicas para identificar a ideia central, intenção do autor e o tema em textos de diferentes gêneros.' },
+                    { id: 'i-2', title: 'Inferência e linguagem implícita', description: 'Como deduzir informações que não estão explícitas no texto, essencial para as questões de linguagem do ENEM.' }
+                ]
+            },
+            repertorio: {
+                name: 'Repertório sociocultural',
+                highlights: [
+                    { id: 'r-1', title: 'Filósofos e pensadores para usar na redação', description: 'Freud, Foucault, Marx, Rousseau: como citar pensadores de forma precisa e pertinente.' },
+                    { id: 'r-2', title: 'Dados e estatísticas confiáveis', description: 'IBGE, ONU, OMS: como usar dados reais para fundamentar seus argumentos com credibilidade.' },
+                    { id: 'r-3', title: 'Legislação brasileira na redação', description: 'Constituição Federal, ECA, Estatuto do Idoso: cite leis para mostrar domínio do tema proposto.' }
+                ]
+            },
+            cinco_competencias: {
+                name: 'As 5 competências do ENEM',
+                highlights: [
+                    { id: 'cc-1', title: 'Competência 1 — Domínio da norma culta', description: 'Gramática, ortografia e pontuação corretas. Como evitar erros que derrubam sua nota.' },
+                    { id: 'cc-2', title: 'Competência 2 — Compreensão da proposta', description: 'Não fuja do tema! Entenda como desenvolver a proposta sem tangenciar ou sair do eixo.' },
+                    { id: 'cc-3', title: 'Competências 3, 4 e 5 — Argumentação, coesão e intervenção', description: 'Como organizar suas ideias, conectar os parágrafos e construir uma proposta de intervenção completa.' }
+                ]
+            }
+        };
+
+        let disciplinesData = {};
+        let allHighlights = [];
+        let currentFilter = 'conectivos';
+        let currentCategory = null;
+
+        // ========== CARREGAR DO SUPABASE ==========
+        async function loadDataFromSupabase() {
+            try {
+                const { data: abas, error } = await supabaseClient
+                    .from('enem_redacao')
+                    .select('*')
+                    .order('ordem', { ascending: true });
+
+                if (error || !abas || abas.length === 0) {
+                    disciplinesData = JSON.parse(JSON.stringify(fallbackData));
+                } else {
+                    const built = {};
+                    abas.forEach(aba => {
+                        // Cada aba vira uma "categoria" com seus cards
+                        const slug = aba.slug || slugify(aba.titulo_aba);
+                        built[slug] = {
+                            name: aba.titulo_aba,
+                            subtitulo: aba.subtitulo || '',
+                            dica: aba.dica || '',
+                            highlights: []
+                        };
+
+                        // Se a aba tem conteúdo, transforma em cards
+                        if (aba.conteudo) {
+                            // Cada parágrafo vira um card
+                            const paragrafos = aba.conteudo.split(/\n\n+/).filter(p => p.trim());
+                            paragrafos.forEach((p, i) => {
+                                const linhas = p.trim().split('\n');
+                                const titulo = linhas[0] || aba.titulo_aba;
+                                const descricao = linhas.slice(1).join(' ') || p.trim();
+                                built[slug].highlights.push({
+                                    id: `${slug}-${i}`,
+                                    title: titulo.replace(/^#+\s*/, ''),
+                                    description: descricao || titulo
+                                });
+                            });
+                        }
+
+                        // Se dica existe, adiciona como card extra
+                        if (aba.dica) {
+                            built[slug].highlights.push({
+                                id: `${slug}-dica`,
+                                title: '💡 Dica: ' + aba.titulo_aba,
+                                description: aba.dica
+                            });
+                        }
+
+                        // Garante ao menos 1 card com o subtítulo
+                        if (built[slug].highlights.length === 0 && aba.subtitulo) {
+                            built[slug].highlights.push({
+                                id: `${slug}-0`,
+                                title: aba.titulo_aba,
+                                description: aba.subtitulo
+                            });
+                        }
+                    });
+
+                    disciplinesData = Object.keys(built).length > 0 ? built : JSON.parse(JSON.stringify(fallbackData));
+                }
+            } catch (e) {
+                disciplinesData = JSON.parse(JSON.stringify(fallbackData));
+            }
+
+            buildHeroTabs();
+
+            allHighlights = Object.keys(disciplinesData).flatMap(cat =>
+                disciplinesData[cat].highlights.map(h => ({ ...h, category: cat }))
+            );
+
+            const firstCat = Object.keys(disciplinesData)[0];
+            currentFilter = firstCat;
+            renderDisciplines(firstCat);
+
+            const firstTab = document.querySelector('.discipline-tab');
+            if (firstTab) {
+                document.querySelectorAll('.discipline-tab').forEach(b => b.classList.remove('active'));
+                firstTab.classList.add('active');
+            }
+        }
+
+        function slugify(text) {
+            return (text || '').toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        }
+
+        // ========== MONTAR ABAS DO HERO DINAMICAMENTE ==========
+        function buildHeroTabs() {
+            const cats = Object.keys(disciplinesData);
+            const heroInner = document.querySelector('.hero-inner');
+            heroInner.querySelectorAll('.disciplines-tabs').forEach(el => el.remove());
+
+            const row1 = cats.slice(0, 3);
+            const row2 = cats.slice(3);
+
+            [row1, row2].forEach((row, ri) => {
+                if (row.length === 0) return;
+                const div = document.createElement('div');
+                div.className = 'disciplines-tabs';
+                if (ri === 1) div.style.marginTop = '-6px';
+                row.forEach((cat, i) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'discipline-tab' + (ri === 0 && i === 0 ? ' active' : '');
+                    btn.textContent = disciplinesData[cat].name;
+                    btn.onclick = (e) => filterDisciplines(cat, e);
+                    div.appendChild(btn);
+                });
+                const img = heroInner.querySelector('.hero-img');
+                heroInner.insertBefore(div, img);
+            });
+        }
+
+        // ========== RENDERIZAÇÃO ==========
+        function renderDisciplines(filter) {
+            const grid = document.getElementById('disciplinesGrid');
+            const titleEl = document.querySelector('.section-title');
+            const catData = disciplinesData[filter];
+            if (!catData) { grid.innerHTML = '<p style="color:#888;text-align:center;">Nenhum conteúdo cadastrado.</p>'; return; }
+            if (titleEl) titleEl.textContent = 'Destaques — ' + catData.name;
+            const items = catData.highlights;
+            if (!items || items.length === 0) {
+                grid.innerHTML = '<p style="color:#888;text-align:center;">Nenhum card cadastrado ainda.</p>';
+                return;
+            }
+            grid.innerHTML = items.map(d => `
+                <div class="discipline-card" onclick="showDetail('${filter}')">
+                    <h3>${d.title}</h3>
+                    <p>${d.description}</p>
+                    ${d.link ? `<a href="${d.link}" target="_blank" style="display:inline-block;margin-top:10px;font-size:0.8rem;color:#1a6fc4;font-weight:700;">Ver mais →</a>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function filterDisciplines(category, event) {
+            currentFilter = category;
+            document.querySelectorAll('.discipline-tab').forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) event.target.classList.add('active');
+            renderDisciplines(category);
+        }
+
+        function showDetail(category) {
+            currentCategory = category;
+            const data = disciplinesData[category];
+            if (!data) return;
+            document.getElementById('gridView').style.display = 'none';
+            document.getElementById('detailView').classList.add('active');
+            document.getElementById('detailTitle').textContent = data.name;
+            const tabsContainer = document.getElementById('detailTabsContainer');
+            tabsContainer.innerHTML = Object.keys(disciplinesData).map(cat => `
+                <button class="detail-tab ${cat === category ? 'active' : ''}" onclick="switchCategory('${cat}', event)">
+                    ${disciplinesData[cat].name}
+                </button>
+            `).join('');
+            renderDetailCards(data.highlights);
+        }
+
+        function renderDetailCards(highlights) {
+            const container = document.getElementById('detailCardsContainer');
+            if (!highlights || highlights.length === 0) { container.innerHTML = '<p style="color:#888;">Nenhum card cadastrado.</p>'; return; }
+            container.innerHTML = highlights.map(item => `
+                <div class="detail-card">
+                    <h4>${item.title}</h4>
+                    <p>${item.description}</p>
+                    ${item.link ? `<a href="${item.link}" target="_blank" style="display:inline-block;margin-top:8px;font-size:0.8rem;color:#1a6fc4;font-weight:700;">Ver mais →</a>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function switchCategory(category, event) {
+            currentCategory = category;
+            const data = disciplinesData[category];
+            if (!data) return;
+            document.getElementById('detailTitle').textContent = data.name;
+            document.querySelectorAll('.detail-tab').forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) event.target.classList.add('active');
+            renderDetailCards(data.highlights);
+        }
+
+        function backToGrid() {
+            document.getElementById('gridView').style.display = 'block';
+            document.getElementById('detailView').classList.remove('active');
+            currentCategory = null;
+        }
+
+        function toggleDarkMode() {
+            const html = document.getElementById('htmlElement');
+            html.classList.toggle('dark');
+            localStorage.setItem('darkMode', html.classList.contains('dark'));
+        }
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const html = document.getElementById('htmlElement');
+            if (localStorage.getItem('darkMode') === 'true') html.classList.add('dark');
+            await loadDataFromSupabase();
+        });
+    </script>
+</body>
+</html>

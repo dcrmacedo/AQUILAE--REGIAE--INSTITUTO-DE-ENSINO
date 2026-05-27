@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt-BR" id="htmlElement">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todas as Matérias</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #faf6ec; margin: 0; padding: 0; }
+
+        html.dark body { background-color: #1a1a1a; color: #e0e0e0; }
+        html.dark .content-card { background: #2d2d2d; border-color: #444; color: #e0e0e0; }
+        html.dark .text-gray-800 { color: #e0e0e0; }
+        html.dark .text-gray-600 { color: #b0b0b0; }
+
+        /* Faixa azul com botões */
+        .disc-banner {
+            background-color: #0a1f44;
+            padding: 24px 28px;
+        }
+        .disc-btn {
+            background-color: #1a56cc;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.97rem;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            text-align: center;
+        }
+        .disc-btn:hover { background-color: #1648b0; transform: scale(1.03); }
+        .disc-btn.active {
+            background-color: transparent;
+            border: 2px solid #fff;
+            outline: none;
+        }
+
+        /* Sub-abas */
+        .sub-tab-btn {
+            padding: 7px 18px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 2px solid #1a56cc;
+            color: #1a56cc;
+            background: transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .sub-tab-btn.active, .sub-tab-btn:hover {
+            background: #1a56cc;
+            color: #fff;
+        }
+        html.dark .sub-tab-btn { border-color: #4a7fd4; color: #4a7fd4; }
+        html.dark .sub-tab-btn.active, html.dark .sub-tab-btn:hover { background: #4a7fd4; color: #fff; }
+
+        /* Cards */
+        .content-card {
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            padding: 16px;
+            transition: box-shadow 0.2s;
+        }
+        .content-card:hover { box-shadow: 0 4px 16px rgba(10,31,68,0.1); }
+
+        /* Painel de conteúdo */
+        .disc-content { display: none; }
+        .disc-content.active { display: block; }
+    </style>
+</head>
+<body>
+
+    <!-- Faixa de botões -->
+    <div class="disc-banner">
+        <div class="flex flex-wrap gap-3">
+            <button class="disc-btn active" onclick="selectDisc('lingua-portuguesa', this)">Língua Portuguesa</button>
+            <button class="disc-btn"        onclick="selectDisc('matematica', this)">Matemática</button>
+            <button class="disc-btn"        onclick="selectDisc('historia', this)">História</button>
+            <button class="disc-btn"        onclick="selectDisc('ingles', this)">Inglês</button>
+            <button class="disc-btn"        onclick="selectDisc('geografia', this)">Geografia</button>
+            <button class="disc-btn"        onclick="selectDisc('biologia', this)">Biologia</button>
+            <button class="disc-btn"        onclick="selectDisc('quimica', this)">Química</button>
+            <button class="disc-btn"        onclick="selectDisc('fisica', this)">Física</button>
+            <button class="disc-btn"        onclick="selectDisc('filosofia', this)">Filosofia</button>
+            <button class="disc-btn"        onclick="selectDisc('literatura', this)">Literatura</button>
+            <button class="disc-btn"        onclick="selectDisc('sociologia', this)">Sociologia</button>
+            <button class="disc-btn"        onclick="selectDisc('educacao-fisica', this)">Educação Física</button>
+        </div>
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="px-6 py-8">
+
+        <div id="disc-lingua-portuguesa" class="disc-content active">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block mb-6">Língua Portuguesa</h2>
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button class="sub-tab-btn active" onclick="loadSubTab('lingua-portuguesa','producao-textual',this)">Produção Textual</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('lingua-portuguesa','sintaxe',this)">Sintaxe</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('lingua-portuguesa','morfologia',this)">Morfologia</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('lingua-portuguesa','fonologia',this)">Fonologia</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('lingua-portuguesa','ortografia',this)">Ortografia</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('lingua-portuguesa','estilistica',this)">Estilística</button>
+            </div>
+            <div id="cards-lingua-portuguesa" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <p class="text-gray-400 text-sm">Carregando conteúdo...</p>
+            </div>
+        </div>
+
+        <div id="disc-matematica" class="disc-content">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block mb-6">Matemática</h2>
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button class="sub-tab-btn active" onclick="loadSubTab('matematica','algebra',this)">Álgebra</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('matematica','geometria',this)">Geometria</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('matematica','estatistica',this)">Estatística</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('matematica','trigonometria',this)">Trigonometria</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('matematica','funcoes',this)">Funções</button>
+            </div>
+            <div id="cards-matematica" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <p class="text-gray-400 text-sm">Carregando conteúdo...</p>
+            </div>
+        </div>
+
+        <div id="disc-historia" class="disc-content">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block mb-6">História</h2>
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button class="sub-tab-btn active" onclick="loadSubTab('historia','brasil-colonial',this)">Brasil Colonial</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('historia','brasil-imperial',this)">Brasil Imperial</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('historia','brasil-republica',this)">Brasil República</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('historia','historia-mundial',this)">História Mundial</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('historia','atualidades',this)">Atualidades</button>
+            </div>
+            <div id="cards-historia" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <p class="text-gray-400 text-sm">Carregando conteúdo...</p>
+            </div>
+        </div>
+
+        <div id="disc-ingles" class="disc-content">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block mb-6">Inglês</h2>
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button class="sub-tab-btn active" onclick="loadSubTab('ingles','gramatica',this)">Gramática</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('ingles','vocabulario',this)">Vocabulário</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('ingles','leitura',this)">Leitura</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('ingles','interpretacao',this)">Interpretação</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('ingles','writing',this)">Writing</button>
+            </div>
+            <div id="cards-ingles" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <p class="text-gray-400 text-sm">Carregando conteúdo...</p>
+            </div>
+        </div>
+
+        <div id="disc-geografia" class="disc-content">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block mb-6">Geografia</h2>
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button class="sub-tab-btn active" onclick="loadSubTab('geografia','geopolitica',this)">Geopolítica</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('geografia','climatologia',this)">Climatologia</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('geografia','hidrografia',this)">Hidrografia</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('geografia','cartografia',this)">Cartografia</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('geografia','urbanizacao',this)">Urbanização</button>
+            </div>
+            <div id="cards-geografia" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <p class="text-gray-400 text-sm">Carregando conteúdo...</p>
+            </div>
+        </div>
+
+        <div id="disc-biologia" class="disc-content">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block mb-6">Biologia</h2>
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button class="sub-tab-btn active" onclick="loadSubTab('biologia','citologia',this)">Citologia</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('biologia','genetica',this)">Genética</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('biologia','ecologia',this)">Ecologia</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('biologia','evolucao',this)">Evolução</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('biologia','fisiologia',this)">Fisiologia</button>
+            </div>
+            <div id="cards-biologia" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <p class="text-gray-400 text-sm">Carregando conteúdo...</p>
+            </div>
+        </div>
+
+        <div id="disc-quimica" class="disc-content">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block mb-6">Química</h2>
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button class="sub-tab-btn active" onclick="loadSubTab('quimica','quimica-organica',this)">Orgânica</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('quimica','quimica-inorganica',this)">Inorgânica</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('quimica','estequiometria',this)">Estequiometria</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('quimica','termoquimica',this)">Termoquímica</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('quimica','eletroquimica',this)">Eletroquímica</button>
+            </div>
+            <div id="cards-quimica" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <p class="text-gray-400 text-sm">Carregando conteúdo...</p>
+            </div>
+        </div>
+
+        <div id="disc-fisica" class="disc-content">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block mb-6">Física</h2>
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button class="sub-tab-btn active" onclick="loadSubTab('fisica','mecanica',this)">Mecânica</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('fisica','termodinamica',this)">Termodinâmica</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('fisica','ondas',this)">Ondas e Óptica</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('fisica','eletromagnetismo',this)">Eletromagnetismo</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('fisica','fisica-moderna',this)">Física Moderna</button>
+            </div>
+            <div id="cards-fisica" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <p class="text-gray-400 text-sm">Carregando conteúdo...</p>
+            </div>
+        </div>
+
+        <div id="disc-filosofia" class="disc-content">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block mb-6">Filosofia</h2>
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button class="sub-tab-btn active" onclick="loadSubTab('filosofia','epistemologia',this)">Epistemologia</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('filosofia','etica',this)">Ética</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('filosofia','logica',this)">Lógica</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('filosofia','metafisica',this)">Metafísica</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('filosofia','filosofia-politica',this)">Filosofia Política</button>
+            </div>
+            <div id="cards-filosofia" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <p class="text-gray-400 text-sm">Carregando conteúdo...</p>
+            </div>
+        </div>
+
+        <div id="disc-literatura" class="disc-content">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block mb-6">Literatura</h2>
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button class="sub-tab-btn active" onclick="loadSubTab('literatura','trovadorismo',this)">Trovadorismo</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('literatura','barroco',this)">Barroco</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('literatura','romantismo',this)">Romantismo</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('literatura','realismo',this)">Realismo</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('literatura','modernismo',this)">Modernismo</button>
+            </div>
+            <div id="cards-literatura" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <p class="text-gray-400 text-sm">Carregando conteúdo...</p>
+            </div>
+        </div>
+
+        <div id="disc-sociologia" class="disc-content">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block mb-6">Sociologia</h2>
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button class="sub-tab-btn active" onclick="loadSubTab('sociologia','teorias-sociais',this)">Teorias Sociais</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('sociologia','cultura',this)">Cultura e Identidade</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('sociologia','desigualdade',this)">Desigualdade Social</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('sociologia','politica-social',this)">Política e Cidadania</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('sociologia','trabalho',this)">Trabalho e Economia</button>
+            </div>
+            <div id="cards-sociologia" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <p class="text-gray-400 text-sm">Carregando conteúdo...</p>
+            </div>
+        </div>
+
+        <div id="disc-educacao-fisica" class="disc-content">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block mb-6">Educação Física</h2>
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button class="sub-tab-btn active" onclick="loadSubTab('educacao-fisica','esportes',this)">Esportes</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('educacao-fisica','saude-qualidade',this)">Saúde e Qualidade de Vida</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('educacao-fisica','ginastica',this)">Ginástica</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('educacao-fisica','jogos-ludicos',this)">Jogos e Atividades Lúdicas</button>
+                <button class="sub-tab-btn" onclick="loadSubTab('educacao-fisica','atletismo',this)">Atletismo</button>
+            </div>
+            <div id="cards-educacao-fisica" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <p class="text-gray-400 text-sm">Carregando conteúdo...</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://yhxqztyxotoukdszswid.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InloeHF6dHl4b3RvdWtkc3pzd2lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwOTI1NzMsImV4cCI6MjA5MzY2ODU3M30.QW-9qhQSTqwROZ8VIXL0JWbvCPxHFR3UwlEMdHl2scI';
+        let _db = null;
+
+        // Armazenar o hash dos dados para detectar mudanças
+        let lastDataHash = {};
+        let currentlyViewingCards = { disc: null, categoria: null };
+        let pollingInterval = null;
+
+        // ========== DADOS DE FALLBACK ==========
+        const fallbackByCategory = {
+            'lingua-portuguesa': {
+                'producao-textual': [
+                    { titulo: 'Entenda o que é Elipse (figura de linguagem) com exemplos', descricao: 'A elipse é uma figura de linguagem usada para omitir termos que podem ser facilmente compreendidos pelo contexto. Aprenda com exemplos práticos e exercícios.' },
+                    { titulo: 'Letras do alfabeto para imprimir e recortar (Educação Infantil)', descricao: 'Confira nosso material para auxiliar no reconhecimento das letras do alfabeto. Pronto para imprimir e usar em sala de aula.' },
+                    { titulo: 'Atividades com textos curtos para interpretação (para imprimir)', descricao: 'A leitura e a interpretação de textos curtos são fundamentais para o desenvolvimento da compreensão leitora dos alunos.' }
+                ],
+                'sintaxe': [
+                    { titulo: 'Ponto e Vírgula ( ; )', descricao: 'O ponto e vírgula ( ; ) é um sinal de pontuação utilizado para separar orações ou elementos em uma frase com mais força que a vírgula.' },
+                    { titulo: 'Exercícios sobre aposto e vocativo (com gabarito comentado)', descricao: 'Faça os exercícios e pratique o que já aprendeu sobre aposto e vocativo com respostas comentadas.' },
+                    { titulo: 'Análise Sintática - Orações Subordinadas', descricao: 'Entenda como funcionam as orações subordinadas e aprenda a identificar suas classificações de forma prática e objetiva.' }
+                ],
+                'morfologia': [
+                    { titulo: 'Características do Anúncio Publicitário', descricao: 'O anúncio publicitário (ou simplesmente publicidade) é um gênero textual que possui características específicas para atrair o consumidor.' },
+                    { titulo: 'Exercícios de vozes verbais com gabarito', descricao: 'Teste seus conhecimentos em vozes verbais e confira se já sabe tudo! Com respostas detalhadas.' },
+                    { titulo: 'Atividades sobre substantivos coletivos (prontas para imprimir)', descricao: 'As atividades a seguir foram elaboradas para facilitar a compreensão e aplicação de substantivos coletivos na língua portuguesa.' }
+                ],
+                'fonologia': [
+                    { titulo: 'Fonemas vs Letras - Entenda a diferença', descricao: 'Descubra a diferença fundamental entre fonemas e letras. Conceitos essenciais para dominar a fonologia portuguesa.' },
+                    { titulo: 'Dígrafos e encontros consonantais', descricao: 'Aprenda sobre dígrafos, encontros consonantais e como eles funcionam na estrutura das palavras.' }
+                ],
+                'ortografia': [
+                    { titulo: 'Regras de Acentuação Gráfica', descricao: 'Domine as regras de acentuação gráfica do português com exemplos práticos e exercícios resolvidos.' },
+                    { titulo: 'Emprego de S, SS, C, Ç e Z', descricao: 'Entenda as diferenças no uso de S, SS, C, Ç e Z através de regras claras e exceções importantes.' }
+                ],
+                'estilistica': [
+                    { titulo: 'Figuras de Linguagem Completo', descricao: 'Estude todas as figuras de linguagem: metáfora, metonímia, sinestesia, hipérbole e muito mais.' },
+                    { titulo: 'Análise de Poesia Moderna', descricao: 'Aprenda a analisar a poesia moderna brasileira com suas características e principais autores.' }
+                ]
+            },
+            'matematica': {
+                'algebra': [
+                    { titulo: 'Equações do 1º Grau - Conceitos e Exercícios', descricao: 'Aprenda a resolver equações do primeiro grau com exemplos práticos e exercícios resolvidos.' },
+                    { titulo: 'Funções Quadráticas - Parábola e Vértice', descricao: 'Entenda como funcionam as funções quadráticas e identifique seus pontos principais.' }
+                ],
+                'geometria': [
+                    { titulo: 'Área e Perímetro - Formulas Essenciais', descricao: 'Aprenda as fórmulas de área e perímetro para os principais polígonos.' },
+                    { titulo: 'Teorema de Pitágoras - Aplicações Práticas', descricao: 'Domine o teorema de Pitágoras com problemas do dia a dia.' }
+                ],
+                'estatistica': [
+                    { titulo: 'Média, Mediana e Moda - Medidas de Tendência Central', descricao: 'Entenda e calcule as principais medidas de tendência central com exemplos.' }
+                ],
+                'trigonometria': [
+                    { titulo: 'Seno, Cosseno e Tangente no Triângulo Retângulo', descricao: 'Aprenda as razões trigonométricas fundamentais.' }
+                ],
+                'funcoes': [
+                    { titulo: 'Funções e Gráficos - Conceitos Básicos', descricao: 'Introdução ao estudo de funções e como representá-las graficamente.' }
+                ]
+            },
+            'historia': {
+                'brasil-colonial': [
+                    { titulo: 'Descobrimento e Primeiros Passos no Brasil', descricao: 'Conheça os primeiros contatos entre europeus e indígenas no Brasil Colonial.' }
+                ],
+                'brasil-imperial': [
+                    { titulo: 'Independência do Brasil - 1822', descricao: 'Entenda os eventos que levaram à independência do Brasil do domínio português.' }
+                ],
+                'brasil-republica': [
+                    { titulo: 'Primeira República Brasileira - O Coronelismo', descricao: 'Estude o sistema político da Primeira República e o papel dos coronéis.' }
+                ],
+                'historia-mundial': [
+                    { titulo: 'Revolução Francesa - Ideais e Consequências', descricao: 'Explore os principais eventos da Revolução Francesa e seu impacto global.' }
+                ],
+                'atualidades': [
+                    { titulo: 'Principais Eventos Históricos Recentes', descricao: 'Acompanhe os principais acontecimentos históricos da atualidade.' }
+                ]
+            },
+            'ingles': {
+                'vocabulario': [
+                    { titulo: 'Vocabulário Essencial do Inglês', descricao: 'Aprenda as palavras mais importantes para conversação básica em inglês.' }
+                ],
+                'gramatica': [
+                    { titulo: 'Tempos Verbais em Inglês', descricao: 'Domine os tempos verbais do inglês com exemplos e exercícios.' }
+                ],
+                'conversacao': [
+                    { titulo: 'Frases Úteis para Conversação', descricao: 'Pratique as expressões mais comuns usadas nativos do inglês.' }
+                ],
+                'reading': [
+                    { titulo: 'Leitura em Inglês para Iniciantes', descricao: 'Desenvolva sua habilidade de leitura com textos adaptados.' }
+                ],
+                'cultura': [
+                    { titulo: 'Cultura Anglo-Saxônica', descricao: 'Conheça tradições e costumes dos países anglófonos.' }
+                ]
+            },
+            'geografia': {
+                'geografia-fisica': [
+                    { titulo: 'Relevo e Formações Geológicas', descricao: 'Estude os principais tipos de relevo e como se formam.' }
+                ],
+                'geografia-humana': [
+                    { titulo: 'População e Densidade Demográfica', descricao: 'Aprenda conceitos demográficos importantes.' }
+                ],
+                'geografia-brasil': [
+                    { titulo: 'Regiões Geográficas do Brasil', descricao: 'Conheça as características de cada região brasileira.' }
+                ],
+                'clima-biomas': [
+                    { titulo: 'Biomas Brasileiros', descricao: 'Explore a biodiversidade dos biomas da Amazônia ao Cerrado.' }
+                ],
+                'cartografia': [
+                    { titulo: 'Leitura de Mapas e Escalas', descricao: 'Aprenda a interpretar corretamente mapas geográficos.' }
+                ]
+            },
+            'biologia': {
+                'celula': [
+                    { titulo: 'Estrutura da Célula - Organelas', descricao: 'Estude as partes da célula e suas funções.' }
+                ],
+                'genetica': [
+                    { titulo: 'Leis de Mendel - Herança Genética', descricao: 'Entenda os princípios da hereditariedade.' }
+                ],
+                'evolucao': [
+                    { titulo: 'Teoria da Evolução - Darwin', descricao: 'Conheça os conceitos fundamentais da evolução biológica.' }
+                ],
+                'ecologia': [
+                    { titulo: 'Cadeias e Teias Alimentares', descricao: 'Aprenda como a energia flui nos ecossistemas.' }
+                ],
+                'corpo-humano': [
+                    { titulo: 'Sistemas do Corpo Humano', descricao: 'Conheça os principais sistemas que compõem nosso corpo.' }
+                ]
+            },
+            'quimica': {
+                'estrutura-atomica': [
+                    { titulo: 'Átomos, Moléculas e Ions', descricao: 'Compreenda a estrutura básica da matéria.' }
+                ],
+                'tabela-periodica': [
+                    { titulo: 'Elementos Químicos e Propriedades', descricao: 'Estude os elementos da tabela periódica.' }
+                ],
+                'ligacoes-quimicas': [
+                    { titulo: 'Ligações Iônicas e Covalentes', descricao: 'Aprenda como os átomos se ligam.' }
+                ],
+                'reacoes-quimicas': [
+                    { titulo: 'Balanceamento de Equações', descricao: 'Domine o balanceamento de reações químicas.' }
+                ],
+                'quimica-organica': [
+                    { titulo: 'Compostos de Carbono', descricao: 'Introdução à química dos compostos orgânicos.' }
+                ]
+            },
+            'fisica': {
+                'mecanica': [
+                    { titulo: 'Cinemática - Movimento e Velocidade', descricao: 'Estude os movimentos e suas características.' }
+                ],
+                'termodinamica': [
+                    { titulo: 'Calor e Temperatura', descricao: 'Entenda a diferença entre calor e temperatura.' }
+                ],
+                'ondas': [
+                    { titulo: 'Propriedades das Ondas', descricao: 'Aprenda sobre comprimento de onda e frequência.' }
+                ],
+                'eletromagnetismo': [
+                    { titulo: 'Campos Elétricos e Magnéticos', descricao: 'Estude os fenômenos eletromagnéticos.' }
+                ],
+                'fisica-moderna': [
+                    { titulo: 'Relatividade e Mecânica Quântica', descricao: 'Introdução à física moderna.' }
+                ]
+            },
+            'filosofia': {
+                'epistemologia': [
+                    { titulo: 'Teoria do Conhecimento', descricao: 'O que é conhecimento e como adquirimos? ' }
+                ],
+                'etica': [
+                    { titulo: 'Ética e Moral - Diferenças e Conceitos', descricao: 'Estude os princípios da ética filosófica.' }
+                ],
+                'logica': [
+                    { titulo: 'Lógica Formal e Argumentação', descricao: 'Aprenda a argumentar logicamente.' }
+                ],
+                'metafisica': [
+                    { titulo: 'Ser e Essência - Questões Metafísicas', descricao: 'Explore questões fundamentais da existência.' }
+                ],
+                'filosofia-politica': [
+                    { titulo: 'Contrato Social e Legitimidade do Poder', descricao: 'Estude as teorias sobre o poder e a política.' }
+                ]
+            },
+            'literatura': {
+                'trovadorismo': [
+                    { titulo: 'Trovadorismo Português - Primeiras Manifestações', descricao: 'Conheça o primeiro movimento literário português.' }
+                ],
+                'barroco': [
+                    { titulo: 'Barroco - Conflito e Tensão', descricao: 'Estude as características do movimento barroco.' }
+                ],
+                'romantismo': [
+                    { titulo: 'Romantismo - Emoção e Liberdade', descricao: 'Explore o movimento que enfatiza sentimentos.' }
+                ],
+                'realismo': [
+                    { titulo: 'Realismo - Crítica Social', descricao: 'Estude a literatura realista com suas críticas sociais.' }
+                ],
+                'modernismo': [
+                    { titulo: 'Modernismo Brasileiro - Inovação', descricao: 'Conheça o movimento que revolucionou a literatura.' }
+                ]
+            },
+            'sociologia': {
+                'teorias-sociais': [
+                    { titulo: 'Clássicos da Sociologia: Marx, Durkheim, Weber', descricao: 'Estude os teóricos fundadores da sociologia.' }
+                ],
+                'cultura': [
+                    { titulo: 'Cultura e Identidade Social', descricao: 'Entenda como a cultura molda a identidade.' }
+                ],
+                'desigualdade': [
+                    { titulo: 'Desigualdade Social e Estratificação', descricao: 'Aprenda sobre classes sociais e mobilidade.' }
+                ],
+                'politica-social': [
+                    { titulo: 'Política, Estado e Cidadania', descricao: 'Estude a relação entre indivíduo e sociedade.' }
+                ],
+                'trabalho': [
+                    { titulo: 'Trabalho, Economia e Sociedade', descricao: 'Análise do trabalho na sociedade contemporânea.' }
+                ]
+            },
+            'educacao-fisica': {
+                'esportes': [
+                    { titulo: 'Esportes Coletivos e Individuais', descricao: 'Conheça as regras e técnicas dos principais esportes.' }
+                ],
+                'saude-qualidade': [
+                    { titulo: 'Saúde, Exercício e Qualidade de Vida', descricao: 'Aprenda sobre hábitos saudáveis e atividade física.' }
+                ],
+                'ginastica': [
+                    { titulo: 'Ginástica Artística e Rítmica', descricao: 'Estude as modalidades de ginástica.' }
+                ],
+                'jogos-ludicos': [
+                    { titulo: 'Jogos e Atividades para Desenvolver Habilidades', descricao: 'Jogos lúdicos e educativos.' }
+                ],
+                'atletismo': [
+                    { titulo: 'Atletismo - Corridas, Saltos e Arremessos', descricao: 'Conheça as provas do atletismo.' }
+                ]
+            }
+        };
+
+        function getSupabase() {
+            if (!_db) _db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            return _db;
+        }
+
+        // ========== SISTEMA DE AUTO-REFRESH (Polling) ==========
+        function startPolling() {
+            if (pollingInterval) return;
+            
+            pollingInterval = setInterval(async () => {
+                if (!currentlyViewingCards.disc || !currentlyViewingCards.categoria) return;
+                
+                try {
+                    const db = getSupabase();
+                    const { data } = await db
+                        .from('disciplina_cards')
+                        .select('*')
+                        .eq('disciplina_slug', currentlyViewingCards.disc)
+                        .eq('categoria', currentlyViewingCards.categoria)
+                        .order('id', { ascending: true });
+
+                    if (data) {
+                        // Criar hash dos dados para comparar
+                        const newHash = JSON.stringify(data);
+                        const cacheKey = `${currentlyViewingCards.disc}_${currentlyViewingCards.categoria}`;
+                        
+                        // Se os dados mudaram, recarregar
+                        if (lastDataHash[cacheKey] !== newHash) {
+                            lastDataHash[cacheKey] = newHash;
+                            renderCards(data, currentlyViewingCards.disc);
+                        }
+                    }
+                } catch (err) {
+                    console.log('Erro no polling:', err.message);
+                }
+            }, 2000); // Verifica a cada 2 segundos
+        }
+
+        function stopPolling() {
+            if (pollingInterval) {
+                clearInterval(pollingInterval);
+                pollingInterval = null;
+            }
+        }
+
+        // Função para renderizar cards
+        function renderCards(cardsToUse, disc) {
+            const cardsEl = document.getElementById('cards-' + disc);
+            if (!cardsEl) return;
+
+            cardsEl.innerHTML = cardsToUse.map(card => `
+                <div class="content-card">
+                    ${card.image_url ? `<img src="${card.image_url}" alt="${card.titulo}" class="w-full h-36 object-cover rounded mb-3">` : ''}
+                    <h3 class="font-bold text-gray-800 mb-1">${card.titulo}</h3>
+                    <p class="text-sm text-gray-600 mb-3">${card.descricao || ''}</p>
+                    ${card.link ? `<a href="${card.link}" target="_blank" class="text-blue-600 text-sm hover:underline font-semibold">Ver mais →</a>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function selectDisc(slug, btn) {
+            document.querySelectorAll('.disc-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.disc-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('disc-' + slug).classList.add('active');
+            btn.classList.add('active');
+
+            // Clica automaticamente na primeira sub-aba da disciplina selecionada
+            const firstSubBtn = document.querySelector('#disc-' + slug + ' .sub-tab-btn');
+            if (firstSubBtn) firstSubBtn.click();
+        }
+
+        async function loadSubTab(disc, categoria, btn) {
+            document.querySelectorAll('#disc-' + disc + ' .sub-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Armazenar o que está sendo visualizado atualmente
+            currentlyViewingCards.disc = disc;
+            currentlyViewingCards.categoria = categoria;
+
+            const cardsEl = document.getElementById('cards-' + disc);
+            cardsEl.innerHTML = '<p class="text-gray-400 text-sm col-span-3">Carregando conteúdo...</p>';
+
+            try {
+                const db = getSupabase();
+                const { data, error } = await db
+                    .from('disciplina_cards')
+                    .select('*')
+                    .eq('disciplina_slug', disc)
+                    .eq('categoria', categoria)
+                    .order('id', { ascending: true });
+
+                if (error) throw error;
+
+                // Se não houver dados, usa fallback
+                let cardsToUse = data;
+                if (!data || data.length === 0) {
+                    // Tenta carregar do fallback
+                    if (fallbackByCategory[disc] && fallbackByCategory[disc][categoria]) {
+                        cardsToUse = fallbackByCategory[disc][categoria];
+                        stopPolling();
+                    } else {
+                        cardsEl.innerHTML = '<p class="text-gray-400 text-sm col-span-3">Nenhum conteúdo disponível para esta seção ainda.</p>';
+                        stopPolling();
+                        return;
+                    }
+                } else {
+                    // Há dados reais, iniciar polling
+                    startPolling();
+                }
+
+                // Armazenar hash dos dados
+                const cacheKey = `${disc}_${categoria}`;
+                lastDataHash[cacheKey] = JSON.stringify(data || cardsToUse);
+
+                renderCards(cardsToUse, disc);
+            } catch (err) {
+                cardsEl.innerHTML = '<p class="text-red-400 text-sm col-span-3">Erro ao carregar: ' + err.message + '</p>';
+                stopPolling();
+            }
+        }
+
+        // Abre automaticamente Língua Portuguesa ao carregar a página
+        window.addEventListener('DOMContentLoaded', () => {
+            const firstBtn = document.querySelector('#disc-lingua-portuguesa .sub-tab-btn');
+            if (firstBtn) firstBtn.click();
+        });
+    </script>
+</body>
+</html>

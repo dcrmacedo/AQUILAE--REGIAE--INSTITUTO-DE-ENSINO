@@ -1,1 +1,2040 @@
+<!DOCTYPE html>
+<html lang="pt-BR" id="htmlElement">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AQUILAE -REGIAE- INSTITUTO DE ENSINO</title>
+    <link rel="icon" href="./imagens/fal_image.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #faf6ec;
+        }
+        body,
+main,
+section {
+    background: #faf6ec;
+}
 
+/* Garante que todos os elementos herdem a cor de fundo */
+.bg-white {
+    background-color: #faf6ec !important;
+}
+
+
+
+        /* Dark Mode Styles */
+        html.dark {
+            color-scheme: dark;
+        }
+
+        html.dark body,
+        html.dark main,
+        html.dark section {
+            background-color: #1a1a1a !important;
+            background: #1a1a1a !important;
+            color: #e0e0e0 !important;
+        }
+
+        html.dark header {
+            background-color: #2d2d2d !important;
+            border-color: #444 !important;
+        }
+
+        html.dark nav {
+            background-color: #1a1a1a !important;
+            border-color: #444 !important;
+        }
+
+        html.dark footer {
+            background-color: #0f0f0f !important;
+        }
+
+        /* Fundo creme vira escuro */
+        html.dark .bg-white,
+        html.dark [class*="bg-white"],
+        html.dark [style*="background: #faf6ec"],
+        html.dark [style*="background-color: #faf6ec"] {
+            background-color: #2d2d2d !important;
+            color: #e0e0e0 !important;
+        }
+
+        html.dark .bg-gray-50 { background-color: #2d2d2d !important; }
+        html.dark .bg-gray-100 { background-color: #333 !important; }
+        html.dark .hover\:bg-gray-100:hover { background-color: #444 !important; }
+
+        /* Textos */
+        html.dark .text-gray-800,
+        html.dark .text-gray-700,
+        html.dark h1, html.dark h2, html.dark h3, html.dark h4, html.dark h5 {
+            color: #e0e0e0 !important;
+        }
+        html.dark .text-gray-600 { color: #b0b0b0 !important; }
+        html.dark .text-gray-500 { color: #888 !important; }
+        html.dark .text-gray-400 { color: #777 !important; }
+
+        /* Textos com cor específica da marca que devem manter */
+        html.dark .text-\[\#0a1f44\] { color: #7ba7d4 !important; }
+        html.dark .text-\[\#0b1d3a\] { color: #7ba7d4 !important; }
+
+        /* Bordas */
+        html.dark .border-gray-200 { border-color: #444 !important; }
+        html.dark .border-gray-300 { border-color: #555 !important; }
+        html.dark .border-b { border-color: #444 !important; }
+        html.dark .border { border-color: #444 !important; }
+
+        /* Cards e containers */
+        html.dark .rounded,
+        html.dark .rounded-lg,
+        html.dark .card-info {
+            background-color: #2d2d2d !important;
+            border-color: #444 !important;
+            color: #e0e0e0 !important;
+        }
+
+        /* Inputs */
+        html.dark input,
+        html.dark textarea,
+        html.dark select {
+            background-color: #333 !important;
+            color: #e0e0e0 !important;
+            border-color: #555 !important;
+        }
+        html.dark input::placeholder { color: #888 !important; }
+
+        /* Botões genéricos (exceto os da marca) */
+        html.dark button:not(#darkModeToggle):not(#hamburgerBtn):not(#searchMobileToggle):not(.carousel-button):not(.btn-saiba-mais) {
+            background-color: #333 !important;
+            color: #e0e0e0 !important;
+        }
+
+        html.dark .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        /* Seção de atualidades e carrossel */
+        html.dark .carousel-container,
+        html.dark #atualidadesContainer {
+            background-color: #1a1a1a !important;
+        }
+
+        /* Badges e tags coloridas — manter legíveis */
+        html.dark .bg-green-100 { background-color: #1a3d2b !important; }
+        html.dark .text-green-700 { color: #6ee7b7 !important; }
+        html.dark .bg-orange-100 { background-color: #3d2a1a !important; }
+        html.dark .text-orange-700 { color: #fdba74 !important; }
+        html.dark .bg-blue-100 { background-color: #1a2a3d !important; }
+        html.dark .text-blue-700 { color: #93c5fd !important; }
+        html.dark .text-blue-600 { color: #93c5fd !important; }
+        html.dark .text-green-600 { color: #6ee7b7 !important; }
+
+        /* Teachers section */
+        html.dark .teachers-section {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%) !important;
+        }
+
+        /* Links */
+        html.dark a:not([class*="text-"]):not([class*="bg-"]) {
+            color: #93c5fd;
+        }
+
+        .dropdown {
+            transition: all 0.3s ease;
+        }
+
+        #carousel, #atualidadesCarousel {
+            cursor: grab;
+        }
+
+        #carousel:active, #atualidadesCarousel:active {
+            cursor: grabbing;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* .w-full mantém 100% — não sobrescrever aqui pois quebra mobile */
+
+        .h-10 {
+            height: 3.0rem;
+        }
+
+        /* Estilos para o carrossel de atualidades */
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-slide {
+            flex: 0 0 100%;
+            min-width: 100%;
+        }
+
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-button:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-button-prev {
+            left: 10px;
+        }
+
+        .carousel-button-next {
+            right: 10px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: white;
+            width: 25px;
+            border-radius: 5px;
+        }
+
+        .carousel-dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.2);
+        }
+
+        /* ============ ESTILOS PARA SEÇÃO DE PROFESSORES ============ */
+        .teachers-section {
+            background: linear-gradient(135deg, #faf6ec 0%, #faf6ec 100%);
+            padding: 60px 20px;
+            min-height: 100vh;
+            transition: background 0.3s ease;
+        }
+
+        html.dark .teachers-section {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+
+        .teachers-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .teachers-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #7c6ba3;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+
+        .teachers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 50px;
+            padding: 0 20px;
+            margin-bottom: 60px;
+        }
+
+        .teacher-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .teacher-image-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin-bottom: 25px;
+        }
+
+        .teacher-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid;
+            border-image: linear-gradient(135deg, #a89eb0 0%, #7ec8a3 100%) 1;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            box-shadow: 0 10px 30px rgba(126, 107, 163, 0.4);
+        }
+
+        .teacher-card:hover .teacher-image {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        .teacher-subject {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        html.light .teacher-subject {
+            color: #666666;
+        }
+
+        .teacher-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #d0d0d0;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+
+        html.light .teacher-name {
+            color: #333333;
+        }
+
+        .teacher-socials {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: #ff6b9d;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 107, 157, 0.3);
+        }
+
+        .social-icon:hover {
+            background: rgba(255, 107, 157, 0.2);
+            transform: translateY(-3px);
+            color: #ff8faf;
+            border-color: rgba(255, 107, 157, 0.6);
+        }
+
+        .department-section {
+            margin-top: 80px;
+            padding-top: 60px;
+            border-top: 1px solid rgba(126, 107, 163, 0.2);
+        }
+
+        .department-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #5eb5a6;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .learn-more-section {
+            text-align: center;
+            margin-top: 80px;
+            padding: 40px 20px;
+        }
+
+        .btn-saiba-mais {
+            padding: 14px 50px;
+            background: linear-gradient(135deg, #7c6ba3 0%, #5eb5a6 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(126, 107, 163, 0.3);
+            display: inline-block;
+        }
+
+        .btn-saiba-mais:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(126, 107, 163, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .teachers-title,
+            .department-title {
+                font-size: 1.8rem;
+            }
+
+            .teachers-grid {
+                gap: 30px;
+            }
+
+            .teacher-image-container {
+                width: 160px;
+                height: 160px;
+            }
+        }
+
+        /* Ajustes para as imagens do carrossel de atualidades */
+.atualidades-slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Muda para 'contain' se não quiser cortar nada */
+    object-position: center;
+}
+
+/* Ajuste no grid para manter proporções */
+.atualidades-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.atualidades-img-container {
+    flex: 1;
+    min-height: 200px;
+    overflow: hidden;
+}
+
+.atualidades-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.atualidades-img-container img:hover {
+    transform: scale(1.05);
+}
+
+/* Para manter a imagem sem corte (mostrar inteira) */
+.atualidades-img-contain img {
+    object-fit: contain;
+    background-color: #f0f0f0;
+}
+/* Controle de imagens - Opções disponíveis */
+
+/* Opção A: Cover - Preenche todo o espaço (pode cortar) */
+.img-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Opção B: Contain - Mostra imagem inteira (pode deixar bordas) */
+.img-contain {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    background-color: #f5f5f5;
+}
+
+/* Opção C: Fill - Distorce a imagem (não recomendado) */
+.img-fill {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+/* Opção D: Scale Down - Mostra imagem menor sem cortar */
+.img-scale-down {
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
+    object-position: center;
+}
+
+/* Container responsivo para imagens */
+.img-container-responsive {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* Proporção 16:9 */
+    overflow: hidden;
+}
+
+.img-container-responsive img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Container com altura fixa */
+.img-container-fixed {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+.img-container-fixed img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.img-container-fixed img:hover {
+    transform: scale(1.1);
+}
+
+/* ============ MENU HAMBÚRGUER MOBILE ============ */
+#mobileMenu {
+    display: none;
+}
+@media (max-width: 767px) {
+    #mobileMenu.mobile-menu-open {
+        display: block;
+        animation: menuSlideDown 0.3s ease-out;
+    }
+}
+@media (min-width: 768px) {
+    #mobileMenu {
+        display: none !important;
+    }
+    #hamburgerBtn {
+        display: none !important;
+    }
+    #searchMobileToggle {
+        display: none !important;
+    }
+    #mobileSearchBar {
+        display: none !important;
+    }
+}
+@keyframes menuSlideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Ícone hambúrguer animado */
+#hamburgerBtn .fa-bars,
+#hamburgerBtn .fa-times {
+    transition: transform 0.2s ease;
+}
+
+/* Accordion chevron girar */
+.mobile-accordion .fa-chevron-down {
+    transition: transform 0.2s ease;
+}
+.mobile-accordion.open .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* ============ IMAGENS RESPONSIVAS MOBILE ============ */
+@media (max-width: 767px) {
+    /* Corrigir o .w-full que estava fixo em 50% */
+    .w-full {
+        width: 100% !important;
+    }
+
+    /* Carrossel de atualidades */
+    .atualidades-img-container {
+        min-height: 160px;
+        max-height: 220px;
+    }
+
+    /* Imagens nos cards de notícias */
+    .w-full.h-40 {
+        height: 160px !important;
+        width: 100% !important;
+    }
+
+    /* Carrossel principal - imagens não ultrapassam a tela */
+    #atualidadesCarousel img,
+    .carousel-slide img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Layout das colunas de atualidades em mobile - empilhar */
+    .grid-cols-1.md\:grid-cols-3,
+    .grid-cols-1.md\:grid-cols-4,
+    .grid-cols-1.md\:grid-cols-2 {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Teacher images menores no mobile */
+    .teacher-image-container {
+        width: 130px;
+        height: 130px;
+    }
+
+    /* Padding do main menor no mobile */
+    main.container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    /* Carousel top ticker - texto menor */
+    #carousel {
+        font-size: 0.75rem;
+    }
+
+    /* Cards de info em 2 colunas no mobile */
+    section.grid.grid-cols-1.md\:grid-cols-4 {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    /* Imagens do reforço escolar */
+    #reforcoGrid {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    /* Botões do carrossel menores */
+    .carousel-button {
+        width: 30px;
+        height: 30px;
+        font-size: 0.75rem;
+    }
+
+    /* Seção de professores em 2 colunas */
+    .teachers-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+    }
+
+    /* Videos grid */
+    .grid.grid-cols-1.md\:grid-cols-3 {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Overflow horizontal nos slides */
+    .carousel-slide > div {
+        flex-direction: column !important;
+    }
+
+    /* Texto do título de seções */
+    .text-2xl {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .teachers-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    section.grid.grid-cols-1.md\:grid-cols-4 {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Dark mode menu mobile */
+html.dark #mobileMenu {
+    background-color: #111827;
+}
+html.dark #mobileMenu .border-\[\#1a3060\] {
+    border-color: #374151;
+}
+html.dark #mobileMenu #disciplinasAccordion,
+html.dark #mobileMenu #enemAccordion {
+    background-color: #1f2937;
+}
+    </style>
+</head>
+<body class="bg-white text-gray-800 overflow-x-hidden">
+
+    <!-- Header -->
+    <header class="bg-white border-b z-50" style="position: relative;">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3">
+                <img src="./imagens/fal_image.png" alt="Logo AQUILAE REGIAE" class="h-10 md:h-12">
+                <div class="flex flex-col">
+                    <h1 class="text-sm font-bold text-[#0a1f44] leading-tight">AQUILAE</h1>
+                    <h1 class="text-sm font-bold text-[#C08030] leading-tight">-REGIAE-</h1>
+                    <p class="text-xs text-gray-600">INSTITUTO DE ENSINO</p>
+                </div>
+            </div>
+            
+            <!-- Redes sociais (ocultar em telas pequenas) -->
+            <div class="hidden md:flex space-x-2">
+                <a href="https://wa.me/559186340582?text=Ol%C3%A1%2C%20Gostaria%20de%20saber%20mais%20sobre%20os%20cursos!" class="text-green-500 text-xl"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/aquilae.regiae/" class="text-pink-500 text-xl"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-black text-xl"><i class="fab fa-tiktok"></i></a>
+                <a href="#" class="text-red-600 text-xl"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=61589176891835&locale=pt_BR" class="text-blue-600 text-xl"><i class="fab fa-facebook"></i></a>
+            </div>
+
+            <div class="flex items-center space-x-2">
+                <!-- Dark Mode Toggle -->
+                <button id="darkModeToggle" class="bg-[#0a1f44] p-2 rounded-full text-white hover:bg-yellow-500 transition" title="Alternar modo escuro">
+                    <i class="fas fa-sun" id="themeIcon"></i>
+                </button>
+                <!-- Search Box (desktop) -->
+                <div class="relative hidden md:block">
+                    <input type="text" id="searchInput" placeholder="Pesquisar..." class="px-3 py-2 rounded border border-gray-300 text-sm focus:outline-none focus:border-yellow-400">
+                    <button id="searchBtn" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <!-- Search Icon (Mobile) -->
+                <button id="searchMobileToggle" class="bg-yellow-400 p-2 rounded-full text-white hover:bg-yellow-500 transition md:hidden" title="Pesquisar">
+                    <i class="fas fa-search"></i>
+                </button>
+                <!-- Hamburger Button (Mobile only) -->
+                <button id="hamburgerBtn" class="md:hidden bg-[#0a1f44] px-4 py-3 rounded text-white focus:outline-none" title="Menu" aria-label="Abrir menu" style="min-width:48px; min-height:48px; display:flex; align-items:center; justify-content:center;">
+                    <span id="hamburgerIcon"><i class="fas fa-bars text-xl"></i></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Search Bar (hidden by default) -->
+        <div id="mobileSearchBar" class="hidden md:hidden px-4 pb-3">
+            <div class="relative">
+                <input type="text" id="searchInputMobile" placeholder="Pesquisar..." class="w-full px-3 py-2 rounded border border-gray-300 text-sm focus:outline-none focus:border-yellow-400">
+                <button class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Navigation Desktop -->
+        <nav class="bg-[#0a1f44] border-t border-b py-2 hidden md:block">
+            <div class="container mx-auto px-4 flex justify-center space-x-6 text-sm font-bold text-[#C08030]">
+               <div class="relative group">
+                    <button class="hover:underline">DISCIPLINAS</button>
+                    <div class="absolute hidden group-hover:block bg-white shadow-lg rounded top-full left-0 w-56 z-50">
+                        <a href="./linguaportuguesa.html" class="block px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm">Língua Portuguesa</a>
+                        <a href="./matematica.html" class="block px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm">Matemática</a>
+                        <a href="./historia.html" class="block px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm">História</a>
+                        <a href="./ingles.html" class="block px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm">Inglês</a>
+                        <a href="./geografia.html" class="block px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm">Geografia</a>
+                        <hr class="border-gray-200">
+                        <div class="relative group/sub">
+                            <a class="flex items-center justify-between px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm cursor-pointer font-semibold text-[#C08030]">
+                                Mais Matérias <i class="fas fa-chevron-right text-xs ml-2"></i>
+                            </a>
+                            <div class="absolute hidden group-hover/sub:block bg-white shadow-lg rounded left-full top-0 w-52 z-50">
+                                <a href="./biologia.html" class="block px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm">Biologia</a>
+                                <a href="./quimica.html" class="block px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm">Química</a>
+                                <a href="./fisica.html" class="block px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm">Física</a>
+                                <a href="./filosofia.html" class="block px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm">Filosofia</a>
+                                <a href="./literatura.html" class="block px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm">Literatura</a>
+                                <a href="./sociologia.html" class="block px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm">Sociologia</a>
+                                <a href="./educacaofisica.html" class="block px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm">Educação Física</a>
+                                <hr class="border-gray-200">
+                                <a href="./maismateria.html" class="block px-4 py-2 hover:bg-gray-100 text-gray-800 text-sm font-semibold">Todas as Matérias</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative group">
+                    <button class="hover:underline">ENEM</button>
+                    <div class="absolute hidden group-hover:block bg-white shadow-lg rounded top-full left-0 w-48 z-50">
+                        <a href="./redação.html" class="block px-4 py-2 hover:bg-gray-100">Redação</a>
+                        <a href="./simulados.html" class="block px-4 py-2 hover:bg-gray-100">Simulados</a>
+                    </div>
+                </div>
+                <a href="#exercicios" class="hover:underline">EXERCÍCIOS</a>
+                <a href="#professores" class="hover:underline">PROFESSORES</a>
+                <a href="./quemsomos.html" class="hover:underline">QUEM SOMOS</a>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu (Hamburger) - fora do header para não ser cortado -->
+    </header>
+
+    <!-- Mobile Menu Overlay (posicionado fora do header) -->
+    <div id="mobileMenu" class="mobile-menu-closed md:hidden bg-[#0a1f44]" style="position: relative; z-index: 40;">
+            <!-- Redes sociais no menu mobile -->
+            <div class="flex justify-center space-x-4 py-3 border-b border-[#1a3060]">
+                <a href="https://wa.me/559186340582?text=Ol%C3%A1%2C%20Gostaria%20de%20saber%20mais%20sobre%20os%20cursos!" class="text-green-400 text-xl"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/aquilae.regiae/" class="text-pink-400 text-xl"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-white text-xl"><i class="fab fa-tiktok"></i></a>
+                <a href="#" class="text-red-400 text-xl"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=61589176891835&locale=pt_BR" class="text-blue-400 text-xl"><i class="fab fa-facebook"></i></a>
+            </div>
+            <!-- Links do menu -->
+            <div class="px-4 py-2 text-sm font-bold text-[#C08030]">
+                <!-- DISCIPLINAS accordion -->
+                <div>
+                    <button class="mobile-accordion w-full flex justify-between items-center py-3 border-b border-[#1a3060] text-left" onclick="toggleMobileAccordion('disciplinasAccordion', this)">
+                        <span>DISCIPLINAS</span>
+                        <i class="fas fa-chevron-down text-xs transition-transform duration-200"></i>
+                    </button>
+                    <div id="disciplinasAccordion" class="hidden bg-[#0d2550] rounded-b mb-1">
+                        <a href="./linguaportuguesa.html" class="block px-4 py-2 text-white text-sm hover:bg-[#1a3060]">Língua Portuguesa</a>
+                        <a href="./matematica.html" class="block px-4 py-2 text-white text-sm hover:bg-[#1a3060]">Matemática</a>
+                        <a href="./historia.html" class="block px-4 py-2 text-white text-sm hover:bg-[#1a3060]">História</a>
+                        <a href="./ingles.html" class="block px-4 py-2 text-white text-sm hover:bg-[#1a3060]">Inglês</a>
+                        <a href="./geografia.html" class="block px-4 py-2 text-white text-sm hover:bg-[#1a3060]">Geografia</a>
+                        <a href="./biologia.html" class="block px-4 py-2 text-white text-sm hover:bg-[#1a3060]">Biologia</a>
+                        <a href="./quimica.html" class="block px-4 py-2 text-white text-sm hover:bg-[#1a3060]">Química</a>
+                        <a href="./fisica.html" class="block px-4 py-2 text-white text-sm hover:bg-[#1a3060]">Física</a>
+                        <a href="./filosofia.html" class="block px-4 py-2 text-white text-sm hover:bg-[#1a3060]">Filosofia</a>
+                        <a href="./literatura.html" class="block px-4 py-2 text-white text-sm hover:bg-[#1a3060]">Literatura</a>
+                        <a href="./sociologia.html" class="block px-4 py-2 text-white text-sm hover:bg-[#1a3060]">Sociologia</a>
+                        <a href="./educacaofisica.html" class="block px-4 py-2 text-white text-sm hover:bg-[#1a3060]">Educação Física</a>
+                        <a href="./maismateria.html" class="block px-4 py-2 text-[#C08030] text-sm font-semibold hover:bg-[#1a3060]">Todas as Matérias</a>
+                    </div>
+                </div>
+                <!-- ENEM accordion -->
+                <div>
+                    <button class="mobile-accordion w-full flex justify-between items-center py-3 border-b border-[#1a3060] text-left" onclick="toggleMobileAccordion('enemAccordion', this)">
+                        <span>ENEM</span>
+                        <i class="fas fa-chevron-down text-xs transition-transform duration-200"></i>
+                    </button>
+                    <div id="enemAccordion" class="hidden bg-[#0d2550] rounded-b mb-1">
+                        <a href="./redação.html" class="block px-4 py-2 text-white text-sm hover:bg-[#1a3060]">Redação</a>
+                        <a href="./simulados.html" class="block px-4 py-2 text-white text-sm hover:bg-[#1a3060]">Simulados</a>
+                    </div>
+                </div>
+                <a href="#exercicios" class="block py-3 border-b border-[#1a3060] hover:text-white" onclick="closeMobileMenu()">EXERCÍCIOS</a>
+                <a href="#professores" class="block py-3 border-b border-[#1a3060] hover:text-white" onclick="closeMobileMenu()">PROFESSORES</a>
+                <a href="./quemsomos.html" class="block py-3 hover:text-white">QUEM SOMOS</a>
+            </div>
+        </div>
+
+    <!-- Carrossel Topo -->
+    <div class="bg-blue-600 text-white py-2 text-sm font-bold relative overflow-hidden">
+        <button onclick="prevSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white text-blue-600 px-2 py-1 rounded z-10">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <div id="carousel" class="flex transition-all duration-700">
+            <div class="min-w-full flex justify-center gap-2 md:gap-8 px-10 text-center">
+                <span>Carregando...</span>
+            </div>
+        </div>
+
+        <button onclick="nextSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-blue-600 px-2 py-1 rounded z-10">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        
+        <!-- Atualidades Section com Carrossel -->
+        <section class="mb-12">
+            <div class="flex justify-between items-end mb-4">
+                <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block">Atualidades</h2>
+                <div class="flex space-x-2 text-sm text-gray-500">
+                    <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold"></span>
+                    <a href="#" class="hover:underline"></a>
+                    <a href="#" class="hover:underline"></a>
+                    <a href="#" class="hover:underline"></a>
+                </div>
+            </div>
+
+            <!-- Carrossel de Atualidades - Dinâmico via Supabase -->
+<div class="carousel-container relative" id="atualidadesContainer">
+    <!-- Botões de navegação -->
+    <button class="carousel-button carousel-button-prev" onclick="prevAtualidadesSlide()">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="carousel-button carousel-button-next" onclick="nextAtualidadesSlide()">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+
+    <!-- Indicadores (dots) -->
+    <div class="carousel-dots" id="atualidadesDots"></div>
+
+    <!-- Track do carrossel - preenchido pelo Supabase -->
+    <div id="atualidadesCarousel" class="carousel-track">
+        <div class="carousel-slide">
+            <div class="flex items-center justify-center py-16 text-gray-400">
+                <i class="fas fa-spinner fa-spin text-2xl mr-3"></i>
+                <span>Carregando atualidades...</span>
+            </div>
+        </div>
+    </div>
+</div>
+        </section>
+
+        <!-- 4 Columns Section -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+            <div class="card-info">
+                <i class="fa-solid fa-user-graduate"></i>
+                 <h3 class="text-xl font-bold text-[#0b1d3a] mb-2">
+                   Professores Especializados
+                </h3>
+                 <p>Aulas focadas em aprovação e entendimento real das matérias.</p>
+              </div>
+           <div class="card-info">
+                <i class="fa-solid fa-user-check"></i>
+                 <h3 class="text-xl font-bold text-[#0b1d3a] mb-2">
+                  Acompanhamento Individual
+                </h3>
+                 <p>Suporte personalizado para melhorar o desempenho do aluno.</p>
+            </div>
+            <div class="card-info">
+               <i class="fa-solid fa-graduation-cap"></i>
+               <h3 class="text-xl font-bold text-[#0b1d3a] mb-2">
+                 Preparação para Vestibulares
+               </h3>
+               <p>Conteúdo estratégico para ENEM e vestibulares.</p>
+            </div>
+            <div class="card-info">
+           <i class="fa-solid fa-chess-knight"></i>
+               <h3 class="text-xl font-bold text-[#0b1d3a] mb-2">
+                Ensino Estratégico
+               </h3>
+               <p>Métodos modernos para aprender com mais eficiência.!</p>
+            </div>
+        </section>
+
+        <!-- Ferramentas Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block mb-6">Ferramentas</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Premium Card -->
+                <div class="border rounded-lg p-6 flex items-center">
+                    <div class="w-1/3">
+                        <img src="https://via.placeholder.com/100" alt="Raissa" class="mx-auto">
+                    </div>
+                    <div class="w-2/3 pl-4">
+                        <h3 class="font-bold text-xl mb-2">Premium</h3>
+                        <p class="text-sm text-gray-600 mb-4">Desbloqueie recursos exclusivos para estudar com menos distrações, mais praticidade e uma experiência mais completa.</p>
+                        <a href="" class="bg-blue-600 text-white px-6 py-2 rounded font-bold w-full">Saiba mais</a>
+                    </div>
+                </div>
+
+                <!-- Cronograma Card -->
+                <div class="border rounded-lg p-6 flex items-center">
+                    <div class="w-1/3">
+                        <img src="https://brasilescola.uol.com.br/assets/images/icons-svg/cronograma.svg" alt="Books" class="mx-auto">
+                    </div>
+                    <div class="w-2/3 pl-4">
+                        <h3 class="font-bold text-xl mb-2">Cronograma de estudos</h3>
+                        <p class="text-sm text-gray-600 mb-4">Organize sua rotina e alcance seus objetivos com um plano de estudos personalizado.</p>
+                        <a href="https://cronogramaestudo.com.br/"  class="bg-blue-600 text-white px-6 py-2 rounded font-bold w-full">Saiba mais</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notícias Section - Dinâmico via Supabase -->
+        <section class="mb-12">
+            <div id="Notícias" class="flex justify-between items-end mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block">Notícias</h2>
+                <button class="bg-green-500 text-white px-4 py-1 rounded text-sm font-bold">Ver mais notícias</button>
+            </div>
+
+            <!-- Col 1: lista de notícias (lado esquerdo) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="md:col-span-1 space-y-6" id="noticiasCol1">
+                    <div class="flex items-center py-8 text-gray-400">
+                        <i class="fas fa-spinner fa-spin mr-2"></i> Carregando...
+                    </div>
+                </div>
+
+                <!-- Col 2: notícia com imagem em destaque -->
+                <div class="md:col-span-1 space-y-6" id="noticiasCol2">
+                </div>
+
+                <!-- Col 3: fixa (vídeo youtube + notícia extra) -->
+                <div class="md:col-span-1 space-y-6">
+                    <div class="border-2 border-purple-500 rounded p-1">
+                        <div class="bg-purple-100 text-purple-700 text-center text-xs font-bold py-1 mb-1">Vídeos do AQUILAE -REGIAE-</div>
+                        <div class="relative">
+                            <img src="" alt="Video" class="w-full">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="fas fa-play-circle text-white text-4xl opacity-80"></i>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center mt-1 px-1">
+                            <span class="text-red-600 text-xs font-bold"><i class="fab fa-youtube"></i> Youtube</span>
+                            <a href="#" class="text-xs text-blue-600 hover:underline">Mais vídeos >></a>
+                        </div>
+                    </div>
+                    <div class="border-t pt-4" id="noticiasCol3Extra"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exercícios Section -->
+        <section id="exercicios" class="mb-12">
+            <div class="flex justify-between items-end mb-4">
+                <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block">Exercícios</h2>
+                <button class="bg-gray-600 text-white px-4 py-1 rounded text-sm font-bold">Ver mais</button>
+            </div>
+            <p class="text-sm text-gray-600 mb-6">Mergulhe no aprendizado: exercite sua mente e aprofunde seus conhecimentos com a gente!</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="reforcoGrid">
+                <div class="col-span-4 text-center py-6 text-gray-400">
+                    <i class="fas fa-spinner fa-spin mr-2"></i> Carregando aulas...
+                </div>
+            </div>
+        </section>
+
+        <!-- Mais vistos Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block mb-6">VídeoAulas</h2>
+            
+            <!-- Container dinâmico - preenchido pelo Supabase -->
+            <div id="videosGrid" class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Loading state -->
+                <div class="col-span-4 text-center py-10 text-gray-400" id="videosLoading">
+                    <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
+                    <p>Carregando vídeos...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recomendados Section - Dinâmico via Supabase -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-green-500 pb-1 inline-block mb-6">Recomendados</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4" id="recomendadosGrid">
+                <div class="col-span-2 flex items-center py-8 text-gray-400">
+                    <i class="fas fa-spinner fa-spin mr-2"></i> Carregando recomendados...
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO DE PROFESSORES -->
+        <section id="professores" class="teachers-section">
+            <div class="teachers-container">
+                <!-- STAFF DE PROFESSORES -->
+                <div id="staffSection">
+                    <h2 class="teachers-title">Staff de Professores</h2>
+                    <div class="teachers-grid" id="staffGrid">
+                        <div class="col-span-full text-center py-10 text-gray-400" id="staffLoading">
+                            <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
+                            <p>Carregando professores...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CIÊNCIAS DA NATUREZA -->
+                <div class="department-section" id="cienciasSection" style="display:none">
+                    <h2 class="department-title">Ciências Da Natureza</h2>
+                    <div class="teachers-grid" id="cienciasGrid"></div>
+                </div>
+
+                <!-- HUMANAS -->
+                <div class="department-section" id="humanidadesSection" style="display:none">
+                    <h2 class="department-title">Humanas</h2>
+                    <div class="teachers-grid" id="humanidadesGrid"></div>
+                </div>
+
+                <!-- BOTÃO SAIBA MAIS -->
+                
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#0a1f44] text-white py-8">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="font-bold text-lg mb-4">AQUILAE -REGIAE- INSTITUTO DE ENSINO</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="./quemsomos.html" class="hover:underline">Quem Somos</a></li>
+                    <li><a href="#" class="hover:underline">Política de Privacidade</a></li>
+                    <li><a href="#" class="hover:underline">Termos de Uso</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-4">Links úteis</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="./linguaportuguesa.html" class="hover:underline">Disciplinas</a></li>
+                    <li><a href="#Notícias" class="hover:underline">Notícias</a></li>
+                    <li><a href="#videosGrid" class="hover:underline">Vídeos</a></li>
+                    <li><a href="https://wa.me/559186340582" class="hover:underline">Fale Conosco</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-4">Ferramentas</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#exercicios" class="hover:underline">Exercícios</a></li>
+                    <li><a href="https://wa.me/559186340582" class="hover:underline">Tire Dúvidas</a></li>
+                    <li><a href="./simulados.html" class="hover:underline">Simulados</a></li>
+                    <li><a href="https://vestibular.brasilescola.uol.com.br/enem/como-calcular-nota-sisu.htm" class="hover:underline">Calculadora Sisu</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-4">Siga o Nome de vcs aqui</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="https://www.facebook.com/profile.php?id=61589176891835&locale=pt_BR" class="flex items-center hover:underline"><i class="fab fa-facebook mr-2"></i> Facebook</a></li>
+                    <li><a href="https://www.instagram.com/aquilae.regiae/" class="flex items-center hover:underline"><i class="fab fa-instagram mr-2"></i> Instagram</a></li>
+                    <li><a href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose=CllgCKCFSrtBgflBqJxNbZhMzFxcntZSrgnjtpHgzmWllVlDHXHNQXnjQXwdrgXvmmFGBBPxpsV" class="flex items-center hover:underline"><i class="fas fa-envelope mr-2"></i>E-mail</a></li>
+                    <li><a href="https://wa.me/559186340582?text=Ol%C3%A1%2C%20Gostaria%20de%20saber%20mais%20sobre%20os%20cursos!" class="flex items-center hover:underline"><i class="fab fa-whatsapp mr-2"></i> WhatsApp</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center text-xs mt-8 border-t border- pt-4">
+            © 2026 DD | AQUILAE -REGIAE- INSTITUTO DE ENSINO  
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <div id="whatsappButton" class="fixed bottom-6 right-6 z-50">
+        <a href="https://wa.me/559186340582?text=Ol%C3%A1%2C%20Gostaria%20de%20saber%20mais%20sobre%20os%20cursos!" target="_blank" class="flex items-center justify-center w-16 h-16 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg transition-all transform hover:scale-110 duration-300">
+            <i class="fab fa-whatsapp text-3xl"></i>
+        </a>
+    </div>
+
+    <!-- CSS para animação do botão flutuante -->
+    <style>
+        #whatsappButton {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        #whatsappButton::before,
+        #whatsappButton::after {
+            display: none !important;
+        }
+
+        #whatsappButton a::before,
+        #whatsappButton a::after {
+            display: none !important;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        #whatsappButton a:hover {
+            animation: none;
+        }
+
+        /* Dark mode para o botão flutuante */
+        html.dark #whatsappButton a {
+            background-color: #25d366;
+        }
+
+        html.dark #whatsappButton a:hover {
+            background-color: #1da851;
+        }
+
+        /* ============ RESPONSIVIDADE MOBILE - MINIMAL ============ */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            /* Ticker/Faixa Azul */
+            .bg-blue-600 {
+                padding: 6px 0 !important;
+            }
+
+            .bg-blue-600 .flex {
+                gap: 4px !important;
+                padding: 0 8px !important;
+                font-size: 11px !important;
+            }
+
+            /* Botões carousel */
+            .carousel-button {
+                width: 32px !important;
+                height: 32px !important;
+                font-size: 0.8rem !important;
+            }
+
+            /* Atualidades */
+            .carousel-slide {
+                padding: 0;
+            }
+
+            .carousel-slide .grid {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+
+            .carousel-slide img {
+                object-fit: contain !important;
+                background-color: #f5f5f5;
+                max-height: 250px;
+            }
+
+            /* Teachers */
+            .teachers-grid {
+                grid-template-columns: 1fr !important;
+                gap: 20px;
+            }
+
+            .teacher-image-container {
+                width: 120px !important;
+                height: 120px !important;
+            }
+
+            /* Text sizing */
+            h1 { font-size: 1.4rem !important; }
+            h2 { font-size: 1.2rem !important; }
+            h3 { font-size: 1rem !important; }
+            p { font-size: 0.9rem !important; }
+
+            /* Buttons */
+            button {
+                min-height: 44px !important;
+                padding: 8px 12px !important;
+            }
+
+            /* Spacing */
+            .px-4 { padding-left: 10px !important; padding-right: 10px !important; }
+            .py-4 { padding-top: 8px !important; padding-bottom: 8px !important; }
+            .gap-4 { gap: 8px !important; }
+
+            /* Overflow */
+            body { overflow-x: hidden; }
+        }
+
+        @media (max-width: 480px) {
+            body { font-size: 12px; }
+            
+            .bg-blue-600 {
+                padding: 4px 0 !important;
+            }
+
+            .bg-blue-600 .flex {
+                gap: 0 !important;
+                padding: 0 4px !important;
+                font-size: 10px !important;
+            }
+
+            .carousel-button {
+                width: 28px !important;
+                height: 28px !important;
+                font-size: 0.7rem !important;
+            }
+
+            header img { max-height: 35px; }
+            header h1 { font-size: 10px !important; }
+
+            .teachers-section { padding: 20px 10px; }
+            .teachers-title { font-size: 1.2rem; }
+            
+            .teacher-image-container {
+                width: 100px !important;
+                height: 100px !important;
+            }
+
+            h1 { font-size: 1.2rem !important; }
+            h2 { font-size: 1rem !important; }
+        }
+    </style>
+
+    <!-- Dark Mode Synchronization Script -->
+    <script>
+        // ========== DARK MODE TOGGLE COM SINCRONIZAÇÃO ==========
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const htmlElement = document.documentElement;
+
+        // Verificar preferência salva do usuário
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            htmlElement.classList.add('dark');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        }
+
+        // Sincronizar tema quando outra aba muda
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'theme') {
+                if (event.newValue === 'dark') {
+                    htmlElement.classList.add('dark');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                } else {
+                    htmlElement.classList.remove('dark');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            }
+        });
+
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', () => {
+            const isDark = htmlElement.classList.toggle('dark');
+            
+            if (isDark) {
+                localStorage.setItem('theme', 'dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        });
+
+        // ========== SEARCH FUNCTIONALITY ==========
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const searchMobileToggle = document.getElementById('searchMobileToggle');
+
+        // Função para realizar busca
+        function performSearch() {
+            const query = searchInput.value.trim().toLowerCase();
+            if (query) {
+                // Buscar em todos os textos da página
+                const mainContent = document.querySelector('main');
+                const textContent = mainContent ? mainContent.innerText.toLowerCase() : '';
+                
+                if (textContent.includes(query)) {
+                    // Se encontrou, scroll para a primeira ocorrência
+                    const elements = mainContent.querySelectorAll('*');
+                    for (let el of elements) {
+                        if (el.innerText && el.innerText.toLowerCase().includes(query)) {
+                            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            // Highlight do elemento
+                            el.style.backgroundColor = '#FFEB3B';
+                            el.style.transition = 'background-color 0.3s ease';
+                            setTimeout(() => {
+                                el.style.backgroundColor = '';
+                            }, 2000);
+                            break;
+                        }
+                    }
+                } else {
+                    // Se não encontrou, mostrar mensagem
+                    const modal = document.createElement('div');
+                    modal.innerHTML = `
+                        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #2d2d2d; color: #fff; padding: 30px; border-radius: 10px; text-align: center; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                            <h3 style="margin: 0 0 10px 0; font-size: 18px;">Nenhum resultado encontrado</h3>
+                            <p style="margin: 0 0 20px 0; color: #ccc;">Nenhuma correspondência para "<strong>${query}</strong>"</p>
+                            <button onclick="this.parentElement.parentElement.remove()" style="padding: 8px 20px; background: #FFC107; color: #000; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Fechar</button>
+                        </div>
+                        <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999;" onclick="this.remove(); this.nextElementSibling.remove()"></div>
+                    `;
+                    document.body.appendChild(modal);
+                }
+                
+                // Limpar input
+                searchInput.value = '';
+            }
+        }
+
+        // Busca ao clicar no botão
+        searchBtn.addEventListener('click', performSearch);
+
+        // Busca ao pressionar Enter
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Mobile: Toggle visibilidade da barra de pesquisa
+        searchMobileToggle.addEventListener('click', () => {
+            const mobileSearchBar = document.getElementById('mobileSearchBar');
+            if (mobileSearchBar) {
+                mobileSearchBar.classList.toggle('hidden');
+                if (!mobileSearchBar.classList.contains('hidden')) {
+                    document.getElementById('searchInputMobile').focus();
+                }
+            }
+        });
+
+        // Carrossel do Topo
+        let topIndex = 0;
+        const topCarousel = document.getElementById("carousel");
+        let topIntervalo;
+
+        function getTopTotal() {
+            return topCarousel ? topCarousel.children.length : 0;
+        }
+
+        function atualizarTop() {
+            if (topCarousel) {
+                topCarousel.style.transform = `translateX(-${topIndex * 100}%)`;
+            }
+        }
+
+        function nextSlide() {
+            const total = getTopTotal();
+            if (total === 0) return;
+            topIndex++;
+            if (topIndex >= total) topIndex = 0;
+            atualizarTop();
+            resetTopTimer();
+        }
+
+        function prevSlide() {
+            const total = getTopTotal();
+            if (total === 0) return;
+            topIndex--;
+            if (topIndex < 0) topIndex = total - 1;
+            atualizarTop();
+            resetTopTimer();
+        }
+
+        function resetTopTimer() {
+            if (topIntervalo) clearInterval(topIntervalo);
+            if (getTopTotal() > 1) {
+                topIntervalo = setInterval(nextSlide, 3000);
+            }
+        }
+
+        if (topCarousel) {
+            let startX = 0;
+            let isDragging = false;
+
+            topCarousel.addEventListener("touchstart", (e) => {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+            });
+
+            topCarousel.addEventListener("touchend", (e) => {
+                if (!isDragging) return;
+                let endX = e.changedTouches[0].clientX;
+                handleTopSwipe(endX);
+                isDragging = false;
+            });
+
+            topCarousel.addEventListener("mousedown", (e) => {
+                startX = e.clientX;
+                isDragging = true;
+                topCarousel.style.cursor = 'grabbing';
+            });
+
+            window.addEventListener("mouseup", (e) => {
+                if (!isDragging) return;
+                let endX = e.clientX;
+                handleTopSwipe(endX);
+                isDragging = false;
+                topCarousel.style.cursor = 'grab';
+            });
+
+            function handleTopSwipe(endX) {
+                const diff = startX - endX;
+                if (diff > 50) nextSlide();
+                else if (diff < -50) prevSlide();
+            }
+        }
+
+        // Carrossel de Atualidades - dinâmico (slides carregados via Supabase)
+        let atualidadesIndex = 0;
+        const atualidadesCarousel = document.getElementById("atualidadesCarousel");
+        let atualidadesIntervalo;
+
+        // Sempre lê o total ao vivo (slides podem ser injetados depois do load)
+        function getAtualidadesTotal() {
+            return atualidadesCarousel ? atualidadesCarousel.children.length : 0;
+        }
+
+        function atualizarAtualidades() {
+            if (atualidadesCarousel) {
+                atualidadesCarousel.style.transform = `translateX(-${atualidadesIndex * 100}%)`;
+                updateDots();
+            }
+        }
+
+        function nextAtualidadesSlide() {
+            const total = getAtualidadesTotal();
+            if (total === 0) return;
+            atualidadesIndex = (atualidadesIndex + 1) % total;
+            atualizarAtualidades();
+            resetAtualidadesTimer();
+        }
+
+        function prevAtualidadesSlide() {
+            const total = getAtualidadesTotal();
+            if (total === 0) return;
+            atualidadesIndex = (atualidadesIndex - 1 + total) % total;
+            atualizarAtualidades();
+            resetAtualidadesTimer();
+        }
+
+        function resetAtualidadesTimer() {
+            if (atualidadesIntervalo) clearInterval(atualidadesIntervalo);
+            if (getAtualidadesTotal() > 0) {
+                atualidadesIntervalo = setInterval(nextAtualidadesSlide, 4000);
+            }
+        }
+
+        function updateDots() {
+            const dots = document.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === atualidadesIndex);
+            });
+        }
+
+        function createDots() {
+            const dotsContainer = document.getElementById('atualidadesDots');
+            if (!dotsContainer) return;
+            const total = getAtualidadesTotal();
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < total; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('carousel-dot');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    atualidadesIndex = i;
+                    atualizarAtualidades();
+                    resetAtualidadesTimer();
+                });
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        // Swipe / drag sempre registrado (slides chegam depois)
+        if (atualidadesCarousel) {
+            let startX = 0;
+            let isDragging = false;
+
+            atualidadesCarousel.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; isDragging = true; });
+            atualidadesCarousel.addEventListener("touchend", (e) => {
+                if (!isDragging) return;
+                handleAtualidadesSwipe(e.changedTouches[0].clientX);
+                isDragging = false;
+            });
+            atualidadesCarousel.addEventListener("mousedown", (e) => { startX = e.clientX; isDragging = true; atualidadesCarousel.style.cursor = 'grabbing'; });
+            window.addEventListener("mouseup", (e) => {
+                if (!isDragging) return;
+                handleAtualidadesSwipe(e.clientX);
+                isDragging = false;
+                atualidadesCarousel.style.cursor = 'grab';
+            });
+
+            function handleAtualidadesSwipe(endX) {
+                const diff = startX - endX;
+                if (diff > 50) nextAtualidadesSlide();
+                else if (diff < -50) prevAtualidadesSlide();
+            }
+        }
+    </script>
+
+    <!-- ========== INTEGRAÇÃO SUPABASE ========== -->
+    <script>
+        const SUPABASE_URL = 'https://yhxqztyxotoukdszswid.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InloeHF6dHl4b3RvdWtkc3pzd2lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwOTI1NzMsImV4cCI6MjA5MzY2ODU3M30.QW-9qhQSTqwROZ8VIXL0JWbvCPxHFR3UwlEMdHl2scI';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // ========== CARREGA VÍDEOS ==========
+        async function carregarVideos() {
+            try {
+                const { data: videos, error } = await supabaseClient
+                    .from('videos')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(8);
+
+                const grid = document.getElementById('videosGrid');
+
+                if (error || !videos || videos.length === 0) {
+                    grid.innerHTML = `
+                        <div class="col-span-4 text-center py-10 text-gray-400">
+                            <i class="fas fa-video text-3xl mb-2"></i>
+                            <p>Nenhum vídeo disponível no momento.</p>
+                        </div>`;
+                    return;
+                }
+
+                grid.innerHTML = videos.map(video => `
+                    <div class="border rounded-lg overflow-hidden flex flex-col">
+                        <div class="relative">
+                            <video
+                                src="${video.url}"
+                                class="w-full mais-vistos-video"
+                                style="height: 210px; object-fit: cover;"
+                                controls
+                                muted
+                                playsinline>
+                            </video>
+                            <span class="absolute top-2 right-2 text-orange-500 bg-white bg-opacity-80 rounded-full px-1">
+                                <i class="fas fa-fire"></i>
+                            </span>
+                        </div>
+                        <div class="p-4 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-lg mb-2">${video.title || 'Sem título'}</h3>
+                                <p class="text-sm text-gray-600 mb-4">${video.description || ''}</p>
+                            </div>
+                            <button
+                                class="bg-blue-900 text-white w-full py-2 rounded text-sm font-bold"
+                                onclick="this.previousElementSibling.previousElementSibling.previousElementSibling.querySelector('video').play()">
+                                
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Reiniciar observer de autoplay nos novos vídeos
+                iniciarObserverVideos();
+
+            } catch (e) {
+                console.error('Erro ao carregar vídeos:', e);
+                document.getElementById('videosGrid').innerHTML = `
+                    <div class="col-span-4 text-center py-10 text-red-400">
+                        <i class="fas fa-exclamation-circle text-2xl mb-2"></i>
+                        <p>Erro ao carregar vídeos.</p>
+                    </div>`;
+            }
+        }
+
+        // ========== CARREGA PROFESSORES ==========
+        async function carregarProfessores() {
+            try {
+                const { data: professores, error } = await supabaseClient
+                    .from('professors')
+                    .select('*')
+                    .order('name', { ascending: true });
+
+                const staffGrid = document.getElementById('staffGrid');
+                const cienciasGrid = document.getElementById('cienciasGrid');
+                const humanidadesGrid = document.getElementById('humanidadesGrid');
+
+                if (error || !professores || professores.length === 0) {
+                    staffGrid.innerHTML = `
+                        <div class="text-center py-10 text-gray-400" style="grid-column: 1/-1">
+                            <i class="fas fa-chalkboard-user text-3xl mb-2"></i>
+                            <p>Nenhum professor cadastrado ainda.</p>
+                        </div>`;
+                    return;
+                }
+
+                const defaultImage = 'https://via.placeholder.com/200x200?text=Foto';
+
+                function criarCardProfessor(prof) {
+                    const instaLink = prof.instagram
+                        ? `<a href="https://www.instagram.com/${prof.instagram}/" class="social-icon" title="Instagram" target="_blank">
+                               <i class="fab fa-instagram"></i>
+                           </a>`
+                        : '';
+                    const whatsLink = prof.whatsapp
+                        ? `<a href="https://wa.me/${prof.whatsapp}" class="social-icon" title="WhatsApp" target="_blank">
+                               <i class="fab fa-whatsapp"></i>
+                           </a>`
+                        : '';
+                    return `
+                        <div class="teacher-card">
+                            <div class="teacher-image-container">
+                                <img src="${prof.image_url || defaultImage}" alt="${prof.name}" class="teacher-image"
+                                     onerror="this.src='${defaultImage}'">
+                            </div>
+                            <p class="teacher-subject">${prof.subject || ''}</p>
+                            <h3 class="teacher-name">${prof.name}</h3>
+                            <div class="teacher-socials">
+                                ${instaLink}
+                                ${whatsLink}
+                            </div>
+                        </div>`;
+                }
+
+                const staff       = professores.filter(p => p.department === 'Staff' || !p.department);
+                const ciencias    = professores.filter(p => p.department === 'Ciencias');
+                const humanidades = professores.filter(p => p.department === 'Humanidades');
+
+                // Staff
+                if (staff.length > 0) {
+                    staffGrid.innerHTML = staff.map(criarCardProfessor).join('');
+                } else {
+                    staffGrid.innerHTML = '<p class="text-gray-400 text-center" style="grid-column:1/-1">Nenhum professor nesta categoria.</p>';
+                }
+
+                // Ciências
+                if (ciencias.length > 0) {
+                    document.getElementById('cienciasSection').style.display = '';
+                    cienciasGrid.innerHTML = ciencias.map(criarCardProfessor).join('');
+                }
+
+                // Humanidades
+                if (humanidades.length > 0) {
+                    document.getElementById('humanidadesSection').style.display = '';
+                    humanidadesGrid.innerHTML = humanidades.map(criarCardProfessor).join('');
+                }
+
+            } catch (e) {
+                console.error('Erro ao carregar professores:', e);
+                document.getElementById('staffGrid').innerHTML = `
+                    <div class="text-center py-10 text-red-400" style="grid-column:1/-1">
+                        <i class="fas fa-exclamation-circle text-2xl mb-2"></i>
+                        <p>Erro ao carregar professores.</p>
+                    </div>`;
+            }
+        }
+
+        // ========== OBSERVER DE AUTOPLAY ==========
+        function iniciarObserverVideos() {
+            const videosEl = document.querySelectorAll('.mais-vistos-video');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.play();
+                    } else {
+                        entry.target.pause();
+                    }
+                });
+            }, { threshold: 0.5 });
+            videosEl.forEach(v => observer.observe(v));
+        }
+
+        // ========== CARREGA ATUALIDADES ==========
+        async function carregarAtualidades() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('atualidades')
+                    .select('*')
+                    .order('ordem', { ascending: true });
+
+                const track = document.getElementById('atualidadesCarousel');
+
+                if (error || !data || data.length === 0) {
+                    track.innerHTML = `
+                        <div class="carousel-slide">
+                            <div class="flex items-center justify-center py-16 text-gray-400">
+                                <i class="fas fa-image text-3xl mr-3"></i>
+                                <span>Nenhuma atualidade cadastrada.</span>
+                            </div>
+                        </div>`;
+                    return;
+                }
+
+                track.innerHTML = data.map(item => `
+                    <div class="carousel-slide">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="md:col-span-2 bg-white rounded-lg shadow-md overflow-hidden">
+                                <div class="flex flex-col md:flex-row h-full">
+                                    <div class="md:w-1/2 h-64 md:h-auto">
+                                        ${item.imagem_url
+                                            ? `<img src="${item.imagem_url}" alt="${item.titulo || ''}" class="w-full h-full object-cover">`
+                                            : `<div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400"><i class="fas fa-image text-4xl"></i></div>`
+                                        }
+                                    </div>
+                                    <div class="p-6 md:w-1/2 flex flex-col justify-center">
+                                        <h3 class="text-xl font-bold mb-2">${item.titulo || ''}</h3>
+                                        <p class="text-sm text-gray-600 mb-4">${item.legenda || ''}</p>
+                                        ${item.link_botao
+                                            ? `<a href="${item.link_botao}" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded font-bold w-max flex items-center gap-2 transition">
+                                                   <i class="fab fa-whatsapp text-lg"></i> Fale conosco
+                                               </a>`
+                                            : ''
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+                                <div class="h-48 overflow-hidden">
+                                    ${item.imagem_sec_url
+                                        ? `<img src="${item.imagem_sec_url}" alt="" class="w-full h-full object-cover">`
+                                        : `<div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-300"><i class="fas fa-image text-3xl"></i></div>`
+                                    }
+                                </div>
+                                <div class="p-4 flex-grow">
+                                    <h3 class="font-bold text-lg mb-2">${item.titulo_sec || item.titulo || ''}</h3>
+                                    <p class="text-sm text-gray-600">${item.legenda_sec || item.legenda || ''}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Reinicializar o carrossel com os novos slides
+                atualidadesIndex = 0;
+                atualizarAtualidades();
+                createDots();
+                resetAtualidadesTimer();
+
+            } catch (e) {
+                console.error('Erro ao carregar atualidades:', e);
+                document.getElementById('atualidadesCarousel').innerHTML = `
+                    <div class="carousel-slide">
+                        <div class="flex items-center justify-center py-16 text-red-400">
+                            <i class="fas fa-exclamation-circle mr-2"></i> Erro ao carregar atualidades.
+                        </div>
+                    </div>`;
+            }
+        }
+
+        // ========== CARREGA NOTÍCIAS ==========
+        async function carregarNoticias() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('noticias')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(6);
+
+                const col1 = document.getElementById('noticiasCol1');
+                const col2 = document.getElementById('noticiasCol2');
+                const col3Extra = document.getElementById('noticiasCol3Extra');
+
+                if (error || !data || data.length === 0) {
+                    col1.innerHTML = '<p class="text-gray-400 text-sm">Nenhuma notícia cadastrada.</p>';
+                    return;
+                }
+
+                function badgeColor(cat) {
+                    const map = { 'Vestibular':'bg-orange-100 text-orange-700', 'Educação':'bg-green-100 text-green-700', 'ENEM':'bg-blue-100 text-blue-700' };
+                    return map[cat] || 'bg-green-100 text-green-700';
+                }
+
+                function noticiaCard(item, comImagem = false) {
+                    const link = item.link ? `href="${item.link}" target="_blank"` : 'href="#"';
+                    if (comImagem && item.imagem_url) {
+                        return `
+                            <div>
+                                <img src="${item.imagem_url}" alt="${item.titulo}" class="w-full h-40 object-cover mb-2 rounded">
+                                <a ${link}><h3 class="font-bold text-md mb-2 hover:text-green-600 cursor-pointer">${item.titulo}</h3></a>
+                                <p class="text-xs text-gray-600 mb-2">${item.resumo || ''}</p>
+                                <div class="flex justify-between text-xs">
+                                    <span class="${badgeColor(item.categoria)} px-2 py-1 rounded">${item.categoria || ''}</span>
+                                    <span class="text-gray-500">${item.data_exibicao || ''}</span>
+                                </div>
+                            </div>`;
+                    }
+                    return `
+                        <div class="border-b pb-4">
+                            <a ${link}><h3 class="font-bold text-md mb-2 hover:text-green-600 cursor-pointer">${item.titulo}</h3></a>
+                            <p class="text-xs text-gray-600 mb-2">${item.resumo || ''}</p>
+                            <div class="flex justify-between text-xs">
+                                <span class="${badgeColor(item.categoria)} px-2 py-1 rounded">${item.categoria || ''}</span>
+                                <span class="text-gray-500">${item.data_exibicao || ''}</span>
+                            </div>
+                        </div>`;
+                }
+
+                // Col 1: primeiras 3 notícias (sem imagem)
+                const col1Items = data.slice(0, 3);
+                col1.innerHTML = col1Items.map(n => noticiaCard(n, false)).join('');
+
+                // Col 2: notícia 4 com imagem em destaque + notícia 5 abaixo
+                const col2Items = data.slice(3, 5);
+                if (col2Items.length > 0) {
+                    col2.innerHTML = noticiaCard(col2Items[0], true);
+                    if (col2Items[1]) {
+                        col2.innerHTML += `<div class="border-t pt-4">${noticiaCard(col2Items[1], false)}</div>`;
+                    }
+                }
+
+                // Col 3 extra: notícia 6
+                if (data[5]) {
+                    col3Extra.innerHTML = noticiaCard(data[5], false);
+                }
+
+            } catch (e) {
+                console.error('Erro ao carregar notícias:', e);
+                document.getElementById('noticiasCol1').innerHTML = '<p class="text-red-400 text-sm">Erro ao carregar notícias.</p>';
+            }
+        }
+
+        // ========== CARREGA RECOMENDADOS ==========
+        async function carregarRecomendados() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('recomendados')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                const grid = document.getElementById('recomendadosGrid');
+
+                if (error || !data || data.length === 0) {
+                    grid.innerHTML = '<div class="col-span-2 text-gray-400 text-sm py-4">Nenhum recomendado cadastrado.</div>';
+                    return;
+                }
+
+                grid.innerHTML = data.map(item => `
+                    <div class="border rounded p-4 flex">
+                        <div class="w-1/3 pr-4 border-r flex flex-col justify-between">
+                            <h4 class="font-bold text-sm text-gray-700">${item.titulo}</h4>
+                            <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded self-start mt-2">${item.badge || 'ESPECIAL'}</span>
+                        </div>
+                        <div class="w-2/3 pl-4">
+                            <p class="text-xs text-gray-500 mb-1">${item.titulo}</p>
+                            <h3 class="font-bold text-md mb-2">${item.subtitulo || ''}</h3>
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-gray-500">${item.categoria || ''}</span>
+                                <a href="${item.link || '#'}" target="_blank" class="text-green-600 hover:underline">Saiba mais ></a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (e) {
+                console.error('Erro ao carregar recomendados:', e);
+                document.getElementById('recomendadosGrid').innerHTML = '<div class="col-span-2 text-red-400 text-sm">Erro ao carregar recomendados.</div>';
+            }
+        }
+
+        // ========== CARREGA REFORÇO ESCOLAR ==========
+        async function carregarReforco() {
+            const grid = document.getElementById('reforcoGrid');
+            try {
+                const { data, error } = await supabaseClient
+                    .from('reforco_escolar')
+                    .select('*')
+                    .order('created_at', { ascending: true });
+
+                if (error || !data || data.length === 0) {
+                    grid.innerHTML = '<div class="col-span-4 text-gray-400 text-sm py-4">Nenhuma aula cadastrada.</div>';
+                    return;
+                }
+
+                grid.innerHTML = data.map(item => `
+                    <a href="${item.link || '#'}" target="_blank" class="border rounded p-3 flex items-center space-x-3 hover:shadow-md cursor-pointer transition" style="text-decoration:none;">
+                        <img src="https://brasilescola.uol.com.br/assets/images/icons-svg/lapis.svg" alt="Icon" class="w-6 h-6" style="flex-shrink:0;">
+                        <span class="text-sm font-semibold text-gray-700 border-l-2 border-pink-500 pl-2">${item.titulo}</span>
+                    </a>
+                `).join('');
+            } catch (e) {
+                console.error('Erro ao carregar reforço escolar:', e);
+                grid.innerHTML = '<div class="col-span-4 text-red-400 text-sm">Erro ao carregar aulas.</div>';
+            }
+        }
+
+        // ========== CARREGA FAIXA AZUL (TICKER) ==========
+        async function carregarTicker() {
+            const carousel = document.getElementById('carousel');
+            try {
+                const { data, error } = await supabaseClient
+                    .from('ticker')
+                    .select('*')
+                    .order('ordem', { ascending: true });
+
+                if (error || !data || data.length === 0) {
+                    carousel.innerHTML = `<div class="min-w-full flex justify-center gap-8 px-10 text-center"><span>BEM-VINDO</span><span>AQUILAE REGIAE</span></div>`;
+                    return;
+                }
+
+                carousel.innerHTML = data.map(item => `
+                    <div class="min-w-full flex justify-center gap-2 md:gap-8 px-10 text-center">
+                        ${item.link
+                            ? `<a href="${item.link}" target="_blank" class="text-white hover:underline">${item.texto1 || ''}</a>`
+                            : `<span>${item.texto1 || ''}</span>`
+                        }
+                        ${item.texto2 ? `<span>${item.texto2}</span>` : ''}
+                    </div>
+                `).join('');
+
+                topIndex = 0;
+                atualizarTop();
+                resetTopTimer();
+            } catch (e) {
+                console.error('Erro ao carregar ticker:', e);
+            }
+        }
+
+        // ========== INICIALIZAR ==========
+        window.addEventListener('DOMContentLoaded', () => {
+            carregarAtualidades();
+            carregarNoticias();
+            carregarRecomendados();
+            carregarVideos();
+            carregarProfessores();
+            carregarReforco();
+            carregarTicker();
+        });
+    </script>
+
+    <script>
+        // ========== MENU HAMBÚRGUER MOBILE ==========
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const hamburgerIcon = document.getElementById('hamburgerIcon');
+        let menuOpen = false;
+
+        hamburgerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menuOpen = !menuOpen;
+            if (menuOpen) {
+                mobileMenu.classList.remove('mobile-menu-closed');
+                mobileMenu.classList.add('mobile-menu-open');
+                hamburgerIcon.innerHTML = '<i class="fas fa-times text-xl"></i>';
+            } else {
+                closeMobileMenu();
+            }
+        });
+
+        function closeMobileMenu() {
+            menuOpen = false;
+            mobileMenu.classList.remove('mobile-menu-open');
+            mobileMenu.classList.add('mobile-menu-closed');
+            hamburgerIcon.innerHTML = '<i class="fas fa-bars text-xl"></i>';
+        }
+
+        function toggleMobileAccordion(id, btn) {
+            const el = document.getElementById(id);
+            const isOpen = !el.classList.contains('hidden');
+            document.querySelectorAll('#mobileMenu [id$="Accordion"]').forEach(acc => acc.classList.add('hidden'));
+            document.querySelectorAll('.mobile-accordion').forEach(b => b.classList.remove('open'));
+            if (!isOpen) {
+                el.classList.remove('hidden');
+                btn.classList.add('open');
+            }
+        }
+
+        // Fechar menu ao clicar fora dele
+        document.addEventListener('click', (e) => {
+            if (menuOpen && !mobileMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+                closeMobileMenu();
+            }
+        });
+    </script>
+
+    <script>
+        // Autoplay vídeos quando ficarem visíveis na tela (vídeos estáticos remanescentes)
+        const videos = document.querySelectorAll('.mais-vistos-video');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.play();
+                } else {
+                    entry.target.pause();
+                }
+            });
+        }, { threshold: 0.5 }); // começa quando 50% do vídeo estiver visível
+
+        videos.forEach(video => observer.observe(video));
+    </script>
+</body>
+</html>

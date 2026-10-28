@@ -1581,11 +1581,11 @@ html.dark #mobileMenu #enemAccordion {
 
                 grid.innerHTML = videos.map(video => `
                     <div class="border rounded-lg overflow-hidden flex flex-col">
-                        <div class="relative">
+                        <div class="relative bg-black">
                             <video
                                 src="${video.url}"
                                 class="w-full mais-vistos-video"
-                                style="height: 210px; object-fit: cover;"
+                                style="aspect-ratio: 16 / 9; object-fit: contain; background: #000; display: block;"
                                 controls
                                 muted
                                 playsinline>
@@ -1594,16 +1594,9 @@ html.dark #mobileMenu #enemAccordion {
                                 <i class="fas fa-fire"></i>
                             </span>
                         </div>
-                        <div class="p-4 flex-grow flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-bold text-lg mb-2">${video.title || 'Sem título'}</h3>
-                                <p class="text-sm text-gray-600 mb-4">${video.description || ''}</p>
-                            </div>
-                            <button
-                                class="bg-blue-900 text-white w-full py-2 rounded text-sm font-bold"
-                                onclick="this.previousElementSibling.previousElementSibling.previousElementSibling.querySelector('video').play()">
-                                
-                            </button>
+                        <div class="p-4">
+                            <h3 class="font-bold text-lg mb-2">${video.title || 'Sem título'}</h3>
+                            <p class="text-sm text-gray-600">${video.description || ''}</p>
                         </div>
                     </div>
                 `).join('');
